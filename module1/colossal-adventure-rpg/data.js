@@ -12,7 +12,7 @@ const goals = [
 
 const enemies = [
 	["skeletal warrior", 20, "rusty axe"],
-	[("ghoul", 25, "claws"],
+	["ghoul", 25, "claws"],
 	["ghost", 15, "spectral blade"],
 	["giant rat", 10, "fangs"]
 ];
