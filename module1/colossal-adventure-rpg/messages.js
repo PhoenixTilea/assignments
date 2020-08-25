@@ -7,7 +7,7 @@ takeDamage(chr, amount) {
 		["suffer", "suffers"],
 		["sustain", "sustains"]
 	]);
-	return `${Util.cap(chr)} ${chr.verb(...verb)} ${amount} damage.`;
+	return `${Util.cap(chr.toString())} ${chr.verb(...verb)} ${amount} damage.`;
 },
 
 receiveHealing(chr, amount) {
@@ -15,15 +15,45 @@ receiveHealing(chr, amount) {
 		["recover", "recovers"],
 		["regain", "regains"]
 	]);
-	return `${Util.cap(chr)} ${chr.verb(...verb)} ${amount} health.`;
+	return `${Util.cap(chr.toString())} ${chr.verb(...verb)} ${amount} health.`;
+},
+
+enemyAppears(enemy) {
+	switch (enemy.name) {
+		case "skeletal warrior": {
+			return Util.either([
+				"Some of the bones scattered about the floor suddenly come to life, forming into a skeletal warrior holding a rusty iron axe.",
+			]);
+		}
+		
+		case "ghoul": {
+			return Util.either([
+				"An unpleasant gurgling noise draws your eyes to a dense patch of shadow, from which a slavering ghoul emerges!",
+			]);
+		}
+		
+		case "ghost": {
+			return Util.either([
+				"A rush of cold wind causes you to leap backward, and before your eyes, a spectral figure materializes!"
+			]);
+		}
+		
+		case "obligatory giant rat": {
+			return Util.either([
+				"You whirl at a growl from the shadows, coming face to face with a black rat the size of a large house cat!",
+			]);
+		}
+		
+		default: return "An enemy appears from the shadows.";
+	}
 },
 
 attack(attacker, opponent, amount) {
 	let attackDesc = Util.either([
 		`${attacker.verb("attack", "attacks")} ${opponent}`,
-		`${attacker.verb("attack", "attacks")} ${opponent} with ${attacker.their} ${attacker.weapon}`,
+		`${attacker.verb("attack", "attacks")} ${opponent} with ${attacker.their()} ${attacker.weapon}`,
 		`${attacker.verb("lunge", "lunges")} for ${opponent}`,
-		`${attacker.verb("lunge", "lunges")} for ${opponent} with ${attacker.their} ${attacker.weapon}`,
+		`${attacker.verb("lunge", "lunges")} for ${opponent} with ${attacker.their()} ${attacker.weapon}`,
 	]);
 	
 	if (amount === 0) {
@@ -35,7 +65,22 @@ attack(attacker, opponent, amount) {
 	} else {
 		attackDesc += heavyHit(attacker, opponent);
 	}
-	return `${Util.cap(attacker)} ${attackDesc}`;
+	if (amount > 0) {
+		attackDesc = `${attackDesc} ${this.takeDamage(opponent, amount)}`;
+	}
+	return `${Util.cap(attacker.toString())} ${attackDesc}`;
+},
+
+escape(enemy) {
+	return Util.either([
+		`You duck the next attack from ${enemy} and skid around a corner. After a brief sprint, you are relieved to realize you are not being pursued.`,
+	]);
+}
+,
+failedEscape(enemy) {
+	return Util.either([
+		`You attempt to flee from ${enemy}, but it refuses to give up the chase.`,
+	]);
 },
 
 playerDeath(player) {
@@ -43,15 +88,15 @@ playerDeath(player) {
 },
 
 enemyDeath(enemy) {
-	return `${Util.cap(enemy)} has died.`;
+	return `${Util.cap(enemy.toString())} has died.`;
 },
 
 drinkPotion(target) {
-	return `You drink a potion. ${receiveHealing(target, 10)}`;
+	return `You drink a potion. ${this.receiveHealing(target, 10)}`;
 },
 
 throwFirebomb(target) {
-	return `You throw a firebomb at ${target}, causing a small explosion of flame. ${takeDamage(target, 20)}`;
+	return `You throw a firebomb at ${target}, causing a small explosion of flame. ${this.takeDamage(target, 20)}`;
 },
 
 throwSmokebomb(target) {
@@ -114,7 +159,7 @@ function normalHit(attacker, opponent) {
 }
 
 function heavyHit(attacker, opponent) {
-	Util.either([
+	return Util.either([
 		" to devastating effect!",
 	]);
 }

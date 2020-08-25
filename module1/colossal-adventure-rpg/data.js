@@ -1,20 +1,20 @@
 const Character = require("./Character");
 
+const commands = ["w", "walk", "u", "use", "p", "print", "q", "quit", "h", "help"];
 const items = ["potion", "firebomb", "smokebomb", "small key"];
-const races = ["dwarf", "elf", "human"];
 const weapons = ["axe", "dagger", "hammer", "spear", "sword"];
 const goals = [
-	"Defeat a great evil",
-	"Find a fabled treasure",
-	"Rescue a captive",
-	"Because you were bored"
+	"to defeat a great evil",
+	"to find a fabled treasure",
+	" to rescue a captive",
+	"because you were bored"
 ];
 
 const enemies = [
 	["skeletal warrior", 20, "rusty axe"],
 	["ghoul", 25, "claws"],
 	["ghost", 15, "spectral blade"],
-	["giant rat", 10, "fangs"]
+	["obligatory giant rat", 10, "fangs"]
 ];
 
-module.exports = { items, weapons, races, enemies, goals };
+module.exports = { commands, items, weapons, enemies, goals };

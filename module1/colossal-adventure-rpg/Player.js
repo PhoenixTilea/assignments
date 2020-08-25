@@ -1,10 +1,8 @@
 const Character = require("./Character");
 const items = require("./data").items;
 
-function Player(name, weapon, race, goal) {
-	Character.call(this, name, 100, weapon);
-	this.race = race;
-	this.goal = goal;
+function Player(name, weapon, goal) {
+	Character.call(this, name, 100, weapon);this.goal = goal;
 	this.inventory = {};
 	items.forEach(item => this.inventory[item] = 0, this);
 }
