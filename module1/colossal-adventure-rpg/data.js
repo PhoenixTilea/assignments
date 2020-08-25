@@ -1,7 +1,7 @@
 const Character = require("./Character");
 
 const commands = ["w", "walk", "u", "use", "p", "print", "q", "quit", "h", "help"];
-const items = ["potion", "firebomb", "smokebomb", "small key"];
+const items = ["potion", "firebomb", "smokebomb", "key"];
 const weapons = ["axe", "dagger", "hammer", "spear", "sword"];
 const goals = [
 	"to defeat a great evil",
@@ -9,6 +9,7 @@ const goals = [
 	" to rescue a captive",
 	"because you were bored"
 ];
+const stages = ["manor grounds", "manor's ground floor", "dungeons", "crypts"];
 
 const enemies = [
 	["skeletal warrior", 20, "rusty axe"],
@@ -17,4 +18,4 @@ const enemies = [
 	["obligatory giant rat", 10, "fangs"]
 ];
 
-module.exports = { commands, items, weapons, enemies, goals };
+module.exports = { commands, items, weapons, enemies, goals, stages };

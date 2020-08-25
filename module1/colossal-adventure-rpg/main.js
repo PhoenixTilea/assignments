@@ -1,5 +1,5 @@
 const readline = require("readline-sync");
-const { commands, items, enemies, weapons, goals } = require("./data");
+const { commands, items, enemies, weapons, goals, stages } = require("./data");
 const Msg = require("./messages");
 const Util = require("./util");
 const Character = require("./Character");
@@ -9,7 +9,7 @@ const Player = require("./Player");
 // Game State
 // ==========
 
-let stage = 1;
+let stage = 0;
 let inBattle = false;
 let smokebomb = false;
 let quit = false;
@@ -22,7 +22,8 @@ let enemy = null;
 // ==========
 
 intro();
-while (player.hp > 0 && !quit && !victory) {
+while (!quit && !victory && player.hp > 0) {
+	console.log(`You are in the ${stages[stage]}.`);
 	let command = readline.question("What do you do? (type 'help' or 'h' for a list of commands): ", {
 		limit: commands,
 		limitMessage: "Sorry, I didn't understand that command."
@@ -73,37 +74,60 @@ end();
 // ==========
 
 function intro() {
-	
+	readline.keyInPause("Welcome to \"House on a Hill\", an adventure RPG where you will explore a haunted manor, do battle with the undead and other monsters, collect loot, and at last reach your chosen goal - if you can survive that long...");
 	let name = readline.question("What is your name? ");
-	if (name.replace(" ", "").length === 0) {
+	if (name.length === 0) {
 		quit = true;
 		return;
 	}
 	console.log(`Welcome, ${name}. What is your weapon of choice? `);
-	let weapon = weapons[readline.keyInSelect(weapons, "Choose a weapon. ")];
+	let weapon = weapons[readline.keyInSelect(weapons, "Choose a weapon. ", { cancel: "Quit" })];
 	if (!weapon) {
 		quit = true;
 		return;
 	}
 	console.log("Got it. And, last but not least, what possessed you to venture inside this spooky hilltop manner? ");
-	let goal = goals[readline.keyInSelect(goals, "Choose a goal. ")];
+	let goal = goals[readline.keyInSelect(goals, "Choose a goal. ", { cancel: "Quit" })];
 	if (!goal) {
 		quit = true;
 		return;
 	}
 	
 	player = new Player(name, weapon, goal);
-	readline.question("Varily! Best of luck on this very haunted adventure! (Enter/Return to continue)... ");
+	readline.keyInPause("Varily! Best of luck on this very haunted adventure! ");
+	
+	console.log("for what feels like the hundredth time you stare at the old, faded map. The thing is surely outdated, but the manorhouse shouldn't have gone anywhere. You raise your eyes to the darkening gloom and squint. Yes... Yes, there is something up ahead, something vast and looming.");
+	switch (goals.indexOf(goal)) {
+		case 0: {
+			console.log(`A heavy weight settles in your chest as you look upon the shadowy structure. It wouldn't take a paladin or priest to declare this place a seat of something malevolent and powerful. This must be where the necromancer plauging the village makes his lair. Steeling your resolve, you march through the rusted iron gate standing open at the base of the hill, your trusty magic ${weapon} at the ready.`);
+		}
+		break;
+		
+		case 1: {
+			console.log(`"Well," you say aloud to yourself, "I guess if these ancient treasures were ever someplace nice, they wouldn't still be up for grabs." That isn't exactly a comfort, but you've never been one to shy away from a little risk for a great reward. Keeping close the magic ${weapon} you uncovered from another of these treasure hunts, you pass beyond the rusted iron gate at the base of the hill, your sights set on the manor and the prize within.`);
+		}
+		break;
+		
+		case 2: {
+			console.log(`Your heart sinks just a little. If the mayor's daughter really is in there, how could she possibly still live? You clench your jaw and steel your nerves; whether the girl lives or not, you will punish those who took her and ensure her father is no longer left to worry. Grasp tight on your magic ${weapon}, you march through the rusted entry gate, ready to face whatever evil stands in your way.`);
+		}
+		break;
+		
+		case 3: {
+			console.log(`Well, it certainly looks spooky enough. You've never explored a haunted house before, and you're pretty sure this ones hella haunted. Wondering if the magic ${weapon} you picked up at the comicbook shop will work against ghosts, you stroll through the rusted iron gate at the base of the hill.`);
+		}
+		break;
+	}
 }
 
-function fight() {
+function fight(e) {
 	inBattle = true;
-	enemy = new Character(...Util.either(enemies));
+	enemy = e || new Character(...Util.either(enemies));
 	let actions = ["Attack", "Use an Item", "Run!"];
-	console.log(Msg.enemyAppears(enemy));
+	readline.keyInPause(Msg.enemyAppears(enemy));
 	let tookTurn = false;
 	do {
-		let a = readline.keyInSelect(actions, "What do you do? ");
+		let a = readline.keyInSelect(actions, "What do you do? ", { cancel: "Quit" });
 		switch (a) {
 			case 0: {
 				let dmg = Util.random(1, 10);
@@ -149,7 +173,7 @@ function fight() {
 	if (player.hp > 0) {
 		console.log(Msg.enemyDeath(enemy));
 		let item = Util.either(items);
-		let heal = Util.random(1, 10);
+		let heal = Util.random(1, 5);
 		player.heal(heal);
 		player.giveItem(item);
 		console.log(`You restore ${heal} hit points and receive a ${item}.`);
@@ -163,7 +187,7 @@ function fight() {
 function useItem() {
 	let itemList = [];
 	for (let name in player.inventory) {
-		if (name !== "small key" && player.inventory[name] > 0) {
+		if (name !== "key" && player.inventory[name] > 0) {
 			itemList.push(name);
 		}
 	}
@@ -216,7 +240,8 @@ function randomEvent() {
 
 function stageDoor() {
 	console.log("You come upon a locked door. ");
-	if (player.inventory["small key"] > 0) {
+	if (player.inventory.key > 0) {
+		player.useItem("key");
 		console.log("Fortunately, you have a key that opens it, allowing you to continue unhindered.");
 		++stage;
 		if (stage === 4) {
