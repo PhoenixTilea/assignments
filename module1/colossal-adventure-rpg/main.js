@@ -37,7 +37,7 @@ while (!quit && !victory && player.hp > 0) {
 			}else if (n === 6) {
 				stageDoor();
 			} else {
-				randomEvent();
+				console.log(randomEvent());
 			}
 		}
 		break;
@@ -123,7 +123,12 @@ function intro() {
 function fight(e) {
 	inBattle = true;
 	enemy = e || new Character(...Util.either(enemies));
-	let actions = ["Attack", "Use an Item", "Run!"];
+	let actions; 
+	if (enemy.name !== "necromancer") {
+		actions = ["Attack", "Use an Item", "Run!"];
+	} else {
+		actions = ["Attack", "Use an Item"];
+	}
 	readline.keyInPause(Msg.enemyAppears(enemy));
 	let tookTurn = false;
 	do {
@@ -176,7 +181,7 @@ function fight(e) {
 		let heal = Util.random(1, 5);
 		player.heal(heal);
 		player.giveItem(item);
-		console.log(`You restore ${heal} hit points and receive a ${item}.`);
+		console.log(`You restore ${heal} health and receive a ${item}.`);
 	} else {
 		console.log(Msg.playerDeath(player));
 	}
@@ -219,9 +224,13 @@ function useItem() {
 		
 		case "smokebomb": {
 			if (inBattle) {
+				if (enemy.name === "necromancer") {
+					console.log("Sorry, but there's no escaping the final bout.");
+				} else {
 				smokebomb = true;
 				player.useItem(item);
 				console.log(Msg.throwSmokebomb(enemy));
+				}
 			} else {
 				console.log(Msg.noUse());
 				return false;
@@ -235,7 +244,12 @@ function useItem() {
 }
 
 function randomEvent() {
-	console.log("You wander through the foreboding halls of the manner.");
+	switch (stage) {
+		case 0: return Msg.groundsEvent();
+		case 1: return Msg.groundFloorEvent();
+		case 2: return Msg.dungeonEvent();
+		case 3: return Msg.cryptEvent();
+	}
 }
 
 function stageDoor() {
@@ -253,7 +267,39 @@ function stageDoor() {
 }
 
 function finalBattle() {
-	
+	readline.keyInPause(`The hinges creak and whine as you push open the iron-banded door in the lowest chamber of the crypt. A sickly green light assaults your eyes, and you tighten your grip on your ${player.weapon} as you step through.`);
+	console.log("You hear the cackling laughter before you see its source. A gaunt-faced man in dark, flowing robes emerges from the shadows at the back of the room, his skull-like countenence grinning maniacally. \"I was wondering if you would make it this far, hero.\" Sarcasm and disdain drip from his final word.");
+	switch (goals.indexOf(player.goal)) {
+		case 0: {
+			console.log("You take a confident step forward. \"And it is unfortunate for you that I have, vile fiend! Prepare to meet your well-deserved doom at my hands!\"");
+			console.log("The necromancer cackles even louder. \"Arrogant fool! My magic will destroy you!\"");
+		}
+		break;
+		
+		case 1: {
+			console.log("\"It'll take more than a few ghosts and creepy crawlies to keep me from a promise of treasure,\" you point out with a laugh of your own. \"You know, if you just hand it over, I'll be on my way and you can keep doing... whatever it is you do all day.\"");
+			console.log("The necromancer sneers. \"So, you've come for my staff, have you? Well, allow me to show you what your averice will earn!\"");
+		}
+		break;
+		
+		case 2: {
+			console.log("You take an aggressive step forward. \"I've had enough of your minions and games, necromancer. I'm here for the mayor's daughter. Release her to me or suffer the consequences!\"");
+			console.log("\"Naive fool!\" the necromancer exclaims. \"You barge into my home to steal my bride? Prepare to face the true power of the undead!\"");
+		}
+		break;
+		
+		case 3: {
+			console.log("You look around with mild curiosity. \"So, you like... actually live down here? Kinda' gross, dude, but whatever floats your boat.\"");
+			console.log("\"Foolish mortal! You cannot even begin to understand the machinations of a great necromancer such as-\"");
+			console.log("\"That's a neat staff. Can I have it?\"");
+			console.log("The necromancer sputters indignantly. \"What? No! I've had enough of this! Die, you ignoramus!\"");
+		}
+		break;
+	}
+	fight(new Character("necromancer", 40, "staff"));
+	if (player.hp > 0) {
+		victory = true;
+	}
 }
 
 function confirmQuit() {
@@ -291,6 +337,32 @@ function end() {
 	if (quit) {
 		console.log("Done for now? Okay. See you soon!");
 	} else if (victory) {
+		console.log("As you watch the necromancer crumple to the floor, wondering what was so magical about him hitting you with his staff, you feel something in the air change. His evil permiated this place, but now that he has fallen, it's just an ordinary, rundown, creepy-looking manor on a hill.");
+		switch (goals.indexOf(player.goal)) {
+			case 0: {
+				console.log("You stride forward and snatch up the necromancer's staff, wasting no time in snapping the foul thing in twain upon your knee. Faint whispers and screams reach your ears as tendrils of shadow leak from the broken haft, then all is still. Your mission complete, you leave this horrid place without a backward glance.");
+			}
+			break;
+			
+			case 1: {
+				console.log("The necromancer's staff lies useless beside his lifeless corpse and you waste no time in snatching it up. Despite his apparent incompetence with it, you can tell just by holding it in your hands that it's powerful... just as long as you're a bit careful with it. Your prize attained, you whistle to yourself as you make your way out of the dank and dingy manor, already thinking forward to your next big adventure.");
+			}
+			break;
+			
+			case 2: {
+				console.log("\"Ugh! You idiot!\" You whirl to face the speaker and find a young woman all dressed in dark robes and makeup. \"You ruined everything! I told Father it wasn't just a phase!\"");
+				console.log("\"Er... I'm sorry, my lady?\"");
+				console.log("She sighs heavily. \"Whatever. Just take me back home.\"");
+				console.log("Victory dubiously attained, you escort the pouting girl from the manor and back to her home village. Oh well. At least you got paid.");
+			}
+			break;
+			
+			case 3: {
+				console.log("\"Well, that's boring,\" you gripe to yourself, watching the torches in the room turn from green to ordinary yellow. You walk over to pick up the staff lying beside the necromancer's corpse, immediately feeling its dark power surge through you. You hum in thought as you examine the artifact, then get a neat idea.");
+				console.log("You've never commanded an army of the undead before...");
+			}
+			break;
+		}
 		console.log("Congratulations! You've succeeded in your quest!");
 	} else {
 		console.log("Better luck next time.");

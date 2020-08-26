@@ -44,6 +44,10 @@ enemyAppears(enemy) {
 			]);
 		}
 		
+		case "necromancer": {
+			return "Waves of darkness eminate from the robed necromancer as he raises his staff in the air.";
+		}
+		
 		default: return "An enemy appears from the shadows.";
 	}
 },
@@ -133,6 +137,55 @@ noUse(item) {
 			return "That's no use to you here.";
 		}
 	}
+},
+
+groundsEvent() {
+	return Util.either([
+		"A stale wind blows past, making you shiver.",
+		"You hear a distant wail. Could it just be the wind?",
+		"A raven crows somewhere to your left.",
+		"A flock of ravens burst from a tree ahead, startling you.",
+		"Branches of gnarled trees creak ominously in the chill breeze.",
+		"A faint whispering surrounds you. You hope its merely the wind through the leaves.",
+		"A small rodent screeches in terror somewhere nearby.",
+		"Twigs snap behind you, but you see nothing upon looking back."
+	]);
+},
+
+groundFloorEvent() {
+	return Util.either([
+		"You wander through the foreboding halls of the manor, trying to make sense of the maze.",
+		"You get the creeping feeling someone is watching you.",
+		"You hear the sound of a woman's lilting laughter but see nothing.",
+		"Torches flicker madly in their sconces as you pass.",
+		"You enter a large dining hall, but despite the low murmur of conversation and clinking dishes, it is barren and empty.",
+		"You're certain you've passed this intersection already. Are you going in circles?",
+		"You walk through an open door and jump as it slams behind you. You spin to confront the offender, but no one is there."
+	]);
+},
+
+dungeonEvent() {
+	return Util.either([
+		"Soft weeping comes from an empty cell to your right.",
+		"Fresh blood drips down the grimy wall beside you.",
+		"Footsteps pass overhead.",
+		"Chains rattle somewhere up ahead.",
+		"Your shadow wails in agony, nearly giving you a heart attack.",
+		"You slip on a puddle of fresh blood, only just catching yourself before you fall.",
+		"A cell door to your left whines as it opens and slams of its own accord.",
+		"Something skitters by in the darkness."
+	]);
+},
+
+cryptEvent() {
+	return Util.either([
+		"You enter a chamber stacked with bones. The eyeless skulls seem to watch as you pass.",
+		"Something moves in your peripheral, but when you turn to look, nothing is there.",
+		"The too sweet smell of rot assaults your nostrils, forcing you to cover your nose and mouth with your hand.",
+		"You hear something being dragged across the floor in an adjacent room.",
+		"A boney hand tries to grasp you from a cavity in the wall but retracts once you move away.",
+		"Plumes of dust rise from the floor where you step, playing tricks on your eyes."
+	]);
 }
 
 };

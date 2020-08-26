@@ -16,6 +16,9 @@ Character.prototype.verb = function (secondPerson, thirdPerson) {
 	return thirdPerson;
 }
 Character.prototype.their = function () {
+	if (this.name === "necromancer") {
+		return "his";
+	}
 	return "its";
 }
 
