@@ -1,0 +1,21 @@
+html, body {
+	background-color: #222222;
+	color: #eeeeee;
+	width: 100%;
+}
+
+h1 {
+	text-align: center;
+}
+
+main {
+	margin-left: 20%;
+}
+
+form > label {
+	display: block;
+}
+
+input[type="checkbox"], input[type="radio"] {
+	padding: 5px;
+}

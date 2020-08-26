@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>Travel Form</title>
+</head>
+<body>
+	<h1>Welcome to Seat of Your Pants Airlines</h1>
+	<main>
+	<p>Please fill out the following form before bording.</p>
+	<form name="travelForm">
+		<label>
+			First Name: 
+			<input type="text" name="firstName" placeholder="Enter your first name" required />
+		</label>
+		<label>
+			Last Name: 
+			<input type="text" name="lastName" placeholder="Enter your last name" required />
+		</label>
+		<label>
+			Age: 
+			<input type="number" name="age" value="18" min="0" required />
+		</label>
+		<div>
+			Gender: 
+			<div role="radiogroup">
+				<label>
+					<input type="radio" name="gender" value="male" />
+					Male
+				</label>
+				<label>
+					<input type="radio" name="gender" value="female" />
+					Female
+				</label>
+				<label>
+					<input type="radio" name="gender" value="nonbinary" />
+					Nonbinary
+				</label>
+				<label>
+					<input type="radio" name="gender" value="prefer not to say" checked />
+					Prefer not to say
+				</label>
+			</div>
+		</div>
+		<div>
+			Dietary Restrictions (Check all that apply):
+			<div>
+				<label>
+					<input type="checkbox" name="diet" value="vegetarian" />
+					Vegetarian
+				</label>
+				<label>
+					<input type="checkbox" name="diet" value="vegan" />
+					Vegan
+				</label>
+				<label>
+					<input type="checkbox" name="diet" value="nut allergy" />
+					Nut allergy
+				</label>
+				<label>
+					<input type="checkbox" name="diet" value="lactose-free" />
+					Lactose-free
+				</label>
+				<label>
+					<input type="checkbox" name="diet" value="gluten-free" />
+					Gluten-free
+				</label>
+			</div>
+		</div>
+		<hr>
+		<button>Submit</button>
+	</form>
+	</main>
+	<script type="text/javascript" src="index.js"></script>
+</body>
+</html>
