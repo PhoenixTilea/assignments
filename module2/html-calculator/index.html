@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<htm lang="en">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>HTML Calculator</title>
+</head>
+<body>
+	<header>
+		<h1>HTML Calculator</h1>
+	</header>
+	<main>
+		<div id="add">
+			<h2>Add</h2>
+			<form name="add">
+				<input type="number" value="0" name="num1" required />
+				<span>+</span>
+				<input type="number" value="0" name="num2" required />
+				<button>=</button>
+				<span id="add-result" class="result" role="alert"></span>
+			</form>
+		</div>
+		<div id="sub">
+			<h2>Subtract</h2>
+			<form name="sub">
+				<input type="number" value="0" name="num1" required />
+				<span>-</span>
+				<input type="number" value="0" name="num2" required />
+				<button>=</button>
+				<span id="sub-result" class="result" role="alert"></span>
+			</form>
+		</div>
+		<div id="mul">
+			<h2>Multiply</h2>
+			<form name="mul">
+				<input type="number" value="0" name="num1" required />
+				<span>x</span>
+				<input type="number" value="0" name="num2" required />
+				<button>=</button>
+				<span id="mul-result" class="result" role="alert"></span>
+			</form>
+		</div>
+	</main>
+	<script type="text/javascript" src="index.js"></script>
+</body>
+</html>

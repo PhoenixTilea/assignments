@@ -1,0 +1,25 @@
+html, body {
+	background-color: #000077;
+	color: #eeeeee;
+	width: 100%;
+	text-align: center;
+}
+
+main {
+	width: 80%;
+	margin: auto;
+}
+
+form {
+	display: grid;
+	width: 100%;
+	grid-template-columns: repeat(5, 10%);
+	justify-content: center;
+}
+
+button {
+	background-color: #000000;
+}
+button:hover {
+	background-color: #3333ff;
+}
