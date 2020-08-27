@@ -1,0 +1,27 @@
+html, body {
+	background-color: #770000;
+	color: #eeeeee;
+	width: 100%;
+}
+
+h1 {
+	text-align: center;
+}
+
+main, form {
+	width: 90%;
+	margin: auto;
+}
+
+table {
+	min-width: 25em;
+	text-align: right;
+}
+
+td {
+	padding: 1em;
+}
+
+#total-row h3 {
+	margin: 0;
+}

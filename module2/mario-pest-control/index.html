@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>Mario Pest Control</title>
+</head>
+<body>
+	<header>
+		<h1>Mario Pest Control
+	</header>
+	<main>
+		<form name="pests">
+		<table><tbody>
+			<tr>
+				<th>Pest Name</th>
+				<th>Price per Capture</th>
+				<th>Number Caught</th>
+			</tr>
+			<tr>
+				<td>Goombas</td>
+				<td>5 coins</td>
+				<td>
+					<input type="number" min="0" value="0" name="goombas" required />
+				</td>
+			</tr>
+			<tr>
+				<td>Bob-ombs</td>
+				<td>7 coins</td>
+				<td>
+					<input type="number" min="0" value="0" name="bobombs" required />
+				</td>
+			</tr>
+			<tr>
+				<td>Cheep-cheeps</td>
+				<td>11 coins</td>
+				<td>
+					<input type="number" min="0" value="0" name="cheepCheeps" required />
+				</td>
+			</tr>
+			<tr id="total-row">
+				<td>
+					<h3>Total: </h3>
+				</td>
+				<td>
+					<span id="total" role="alert"></span> coins
+				</td>
+				<td>
+					<button>Done</button>
+				</td>
+			</tr>
+		</tbody></table>
+	</form>
+	</main>
+	<script type="text/javascript" src="index.js"></script>
+</body>
+</html>
