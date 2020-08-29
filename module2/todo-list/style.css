@@ -1,0 +1,49 @@
+* {
+	box-sizing: border-box;
+}
+
+html, body {
+	width: 100%;
+	background-color: #111111;
+	color: #eeeeee;
+}
+
+header, main {
+	width: 90%;
+	margin: auto;
+}
+
+h1 {
+	text-align: center;
+}
+
+main {
+	margin-bottom: 5em;
+	display: grid;
+	grid-template-columns: 50% 40%;
+	justify-content: space-between;
+}
+
+#todo-list {
+	list-style-type: none;
+}
+
+#todo-list li {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1em 50px auto 6em 5em 2em;
+	grid-template-rows: 50px auto;
+}
+
+#todo-list li p {
+	grid-column: 2 / -1;
+}
+
+#todo-list li.completed h3 {
+	text-decoration: line-through;
+}
+
+#add-item label {
+	display: block;
+	margin: 1em;
+}
