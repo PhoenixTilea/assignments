@@ -1,0 +1,62 @@
+{
+	"appetizers" : [
+		{
+			"name" : "Chips 'n Stuff",
+			"ingredients" : ["chips", "stuff"],
+			"description" : "Crunchy tortilla chips and other sundries."
+		},
+		{
+			"name" : "Cheese Sticks",
+			"ingredients" : ["cheese", "bread"],
+			"description" : "We wrapped some cheese in bread and fried it. Have some."
+		}
+	],
+	"coldSands" : [
+		{
+			"name" : "BLT",
+			"ingredients" : ["bacon", "lettuce", "tomato", "mayo", "bread"],
+			"description" : "A sandwich with bacon, lettuce, and tomato on it, as the acronym suggests."
+		},
+		{
+			"name" : "Bologna Sandwich",
+			"ingredients" : ["bologna", "cheese", "mustard"],
+			"description" : "For the kids."
+		}
+	],
+	"hotSands" : [
+		{
+			"name" : "Meatball Sub",
+			"ingredients" : ["balls of meat", "cheese", "marinera sauce"],
+			"description" : "The meatest meatballs dripping with way too much sauce!"
+		},
+		{
+			"name" : "Spicy Italian",
+			"ingredients" : ["pepperoni", "salami", "cheese"],
+			"description" : "It's a sandwich we think seems kinda' Italian."
+		}
+	],
+	"desserts" : [
+		{
+			"name" : "Chocolate Chip Cookie",
+			"ingredients" : ["chocolate chips", "cookie dough"],
+			"description" : "Good ol' American chocolate chip cookie baked at some point during the past 72 hours."
+		},
+		{
+			"name" : "Cookie Sandwich",
+			"ingredients" : ["chocolate chip cookie", "creamcheese icing"],
+			"description" : "Coma-inducingly sweet sandwich made from two of our chocolate chip cookies and a filling of creamcheese icing."
+		}
+	],
+	"drinks" : [
+		{
+			"name" : "Water",
+			"ingredients" : ["water"],
+			"description" : "Blessed, life-giving H2O."
+		},
+		{
+			"name" : "Sweet Tea",
+			"ingredients" : ["tea", "sugar"],
+			"description" : "Iced tea loaded down with sugar."
+		}
+	]
+}
