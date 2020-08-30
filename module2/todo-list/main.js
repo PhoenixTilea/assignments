@@ -76,7 +76,77 @@ function clearForm() {
 }
 
 function showEditForm(e) {
-	let id = e.target.parentNode.getAttribute("id");
+	const li = e.target.parentNode;
+	const id = li.getAttribute("id");
+	const item = todo[id];
+	const title = li.children[2];
+	const price = li.children[3];
+	const edit = li.children[4];
+	const desc = li.lastChild();
+	
+	const titleField = document.createElement("input");
+	titleField.setAttribute("type", "text");
+	titleField.setAttribute("id", "title-field");
+	titleField.value = item.title;
+	
+	const priceField = document.createElement("input");
+	priceField.setAttribute("type", "number");
+	priceField.setAttribute("id", "price-field");
+	priceField.setAttribute("min", "0.00");
+	priceField.value = item.price || "0.00";
+	priceField.setAttribute("step", "0.01");
+	
+	const descField = document.createElement("textarea");
+	descField.setAttribute("id", "desc-field");
+	descField.value = item.description || "";
+	
+	const save = document.createElement("button");
+	save.textContent = "Save";
+	save.addEventListener("click", () => {
+		let newTitle = titleField.value.trim();
+		let newPrice = parseFloat(priceField.value);
+		let newDesc = descField.value.trim();
+		
+		let data = {};
+		if (newTitle && newTitle !== item.title) {
+			data.title = newTitle;
+		}
+		if (!Number.isNaN(newPrice) && newPrice !== item.price) {
+			data.price = newPrice;
+		}
+		if (newDesc !== item.description) {
+			data.description = newDesc;
+		}
+		
+		axios.put(baseUrl + id, data).then(response => {
+		let updated = response.data;
+		title.textcontent = updated.title;
+		if (updated.price && updated.price > 0.00) {
+			price.textContent = "$" + price;
+		} else {
+			price.textContent = "";
+		}
+		desc.textContent = updated.description || "";
+		
+			li.removeChild(titleField);
+			li.removeChild(priceField);
+			li.removeChild(save);
+			li.removeChild(descField);
+			title.hidden = false;
+			price.hidden = false;
+			edit.hidden = false;
+			desc.hidden = false;
+		});
+	});
+	
+	title.hidden = true;
+	li.insertBefore(titleField, title);
+	price.hidden = true;
+	li.insertBefore(priceField, price);
+	edit.hidden = true;
+	li.insertBefore(edit, save);
+	desc.hidden = true;
+	li.appendChild(descField);
 }
 
 // ==========
@@ -99,10 +169,6 @@ function addNewItem() {
 	
 	axios.post(baseUrl, newItem).then(response => createTodoItem(response.data));
 	clearForm();
-}
-
-function editItem() {
-	
 }
 
 function updateItemCompletion(e) {

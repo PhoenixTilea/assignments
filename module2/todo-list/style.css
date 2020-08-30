@@ -33,9 +33,11 @@ main {
 	display: grid;
 	grid-template-columns: 1em 50px auto 6em 5em 2em;
 	grid-template-rows: 50px auto;
+	padding-top: 1em;
+	border-bottom: 1px dashed #eeeeee;
 }
 
-#todo-list li p {
+#todo-list li p, #todo-list li textarea {
 	grid-column: 2 / -1;
 }
 
