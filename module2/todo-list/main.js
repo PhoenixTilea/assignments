@@ -27,6 +27,7 @@ function createTodoItem(item) {
 	img.setAttribute("src", item.imgUrl || "");
 	img.setAttribute("width", "50px");
 	img.setAttribute("height", "50px");
+	img.setAttribute("alt", `image for ${item.title}`);
 	
 	let desc = document.createElement("p");
 	desc.textContent = item.description || "No description";
@@ -41,14 +42,17 @@ function createTodoItem(item) {
 	comp.value = "complete";
 	comp.checked = item.completed;
 	comp.addEventListener("change", updateItemCompletion);
+	comp.setAttribute("aria-label", `${item.title} completed`);
 		
 		let edit = document.createElement("button");
 		edit.textContent = "Edit";
+		edit.setAttribute("aria-label", `edit ${item.title}`);
 		edit.addEventListener("click", showEditForm);
 		
 		let del = document.createElement("button");
 		del.textContent = "X";
 		del.setAttribute("title", "Delete");
+		del.setAttribute("aria-label", `delete ${item.title}`);
 		del.addEventListener("click", deleteItem);
 		
 		li.appendChild(comp);
@@ -79,15 +83,18 @@ function showEditForm(e) {
 	const li = e.target.parentNode;
 	const id = li.getAttribute("id");
 	const item = todo[id];
+	const img = li.children[1];
 	const title = li.children[2];
 	const price = li.children[3];
 	const edit = li.children[4];
-	const desc = li.lastChild();
+	const desc = li.lastChild;
 	
 	const titleField = document.createElement("input");
 	titleField.setAttribute("type", "text");
 	titleField.setAttribute("id", "title-field");
 	titleField.value = item.title;
+	titleField.setAttribute("placeholder", "Enter a title for this item.");
+	titleField.setAttribute("aria-label", "item title");
 	
 	const priceField = document.createElement("input");
 	priceField.setAttribute("type", "number");
@@ -95,17 +102,28 @@ function showEditForm(e) {
 	priceField.setAttribute("min", "0.00");
 	priceField.value = item.price || "0.00";
 	priceField.setAttribute("step", "0.01");
+	priceField.setAttribute("aria-label", "item price");
 	
 	const descField = document.createElement("textarea");
 	descField.setAttribute("id", "desc-field");
 	descField.value = item.description || "";
+	descField.setAttribute("placeholder", "Enter a brief description for this item.");
+	descField.setAttribute("aria-label", "item description");
+	
+	const imgField = document.createElement("input");
+	imgField.setAttribute("type", "text");
+	imgField.value = item.imgUrl || "";
+	imgField.setAttribute("placeholder", "https://example.com/img.png");
+	imgField.setAttribute("aria-label", "image url");
 	
 	const save = document.createElement("button");
 	save.textContent = "Save";
+	save.setAttribute("aria-label", `Save changes to ${item.title}`);
 	save.addEventListener("click", () => {
 		let newTitle = titleField.value.trim();
 		let newPrice = parseFloat(priceField.value);
 		let newDesc = descField.value.trim();
+		let newImg = imgField.value;
 		
 		let data = {};
 		if (newTitle && newTitle !== item.title) {
@@ -117,24 +135,35 @@ function showEditForm(e) {
 		if (newDesc !== item.description) {
 			data.description = newDesc;
 		}
+		if (newImg !== item.imgUrl) {
+			data.imgUrl = newImg;
+		}
 		
 		axios.put(baseUrl + id, data).then(response => {
 		let updated = response.data;
-		title.textcontent = updated.title;
+		todo[id] = updated;
+		title.textContent = updated.title;
 		if (updated.price && updated.price > 0.00) {
-			price.textContent = "$" + price;
+			price.textContent = "$" + updated.price;
 		} else {
 			price.textContent = "";
 		}
 		desc.textContent = updated.description || "";
+		img.setAttribute("src", updated.imgUrl || "");
 		
 			li.removeChild(titleField);
 			li.removeChild(priceField);
 			li.removeChild(save);
 			li.removeChild(descField);
+			li.removeChild(imgField);
+			
+			li.firstChild.setAttribute("aria-label", `${updated.title} completed`);
+			img.setAttribute("alt", `image for ${updated.title}`);
 			title.hidden = false;
 			price.hidden = false;
+			edit.setAttribute("aria-label", `edit ${updated.title}`);
 			edit.hidden = false;
+			li.children[5].setAttribute("aria-label", `delete ${updated.title}`);
 			desc.hidden = false;
 		});
 	});
@@ -144,9 +173,10 @@ function showEditForm(e) {
 	price.hidden = true;
 	li.insertBefore(priceField, price);
 	edit.hidden = true;
-	li.insertBefore(edit, save);
+	li.insertBefore(save, edit);
 	desc.hidden = true;
 	li.appendChild(descField);
+	li.appendChild(imgField);
 }
 
 // ==========
