@@ -1,0 +1,25 @@
+.card {
+	width: 25%;
+	display: grid;
+	grid-template-columns: 50% 50%;
+}
+
+.card h2 {
+	grid-column: 1 / -1;
+}
+
+.card.spring {
+	background-color: green;
+}
+
+.card.summer {
+	background-color: yellow;
+}
+
+.card.fall {
+	background-color: red;
+}
+
+.card.winter {
+	background-color; blue;
+}
