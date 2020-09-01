@@ -2,24 +2,25 @@
 	width: 25%;
 	display: grid;
 	grid-template-columns: 50% 50%;
+	border: 2px inset #000000;
 }
 
 .card h2 {
 	grid-column: 1 / -1;
 }
 
-.card.spring {
+.card.Spring {
 	background-color: green;
 }
 
-.card.summer {
+.card.Summer {
 	background-color: yellow;
 }
 
-.card.fall {
+.card.Fall {
 	background-color: red;
 }
 
-.card.winter {
-	background-color; blue;
+.card.Winter {
+	background-color: blue;
 }

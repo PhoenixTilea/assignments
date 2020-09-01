@@ -24,7 +24,7 @@ const vacationSpots = [
     price: 400,
     timeToGo: "Spring"
   }
-]
+];
 
 function App() {
 	return (
@@ -33,7 +33,7 @@ function App() {
 				<h1>Vacation Spots</h1>
 			</header>
 			<main>
-			{vacationSpots.map(spot => <Card place={spot.place} price={spot.price} time={spot.timeToGo} />)}
+			{vacationSpots.map(spot => <Card place={spot.place} price={spot.price} timeToGo={spot.timeToGo} />)}
 			</main>
 		</div>
 	);
