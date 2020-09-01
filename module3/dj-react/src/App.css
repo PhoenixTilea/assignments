@@ -1,0 +1,10 @@
+.app {
+	text-align: center;
+	width: 100%;
+	background-color: darkblue;
+	color: #eeeeee;
+}
+
+.app main {
+	width: 100%;
+}

@@ -1,0 +1,8 @@
+.button-panel {
+	width: 60%;
+	margin: auto;
+	display: grid;
+	grid-template-columns: repeat(4, 4em);
+	grid-gap: 5px;
+	justify-content: center;
+}

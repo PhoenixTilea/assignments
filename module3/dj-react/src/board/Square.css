@@ -1,0 +1,28 @@
+.square {
+	border: 1px solid #eeeeee;
+}
+
+.square.white {
+	background-color: white;
+	color: white;
+}
+
+.square.black {
+	background-color: black;
+	color: black;
+}
+
+.square.purple {
+	background-color: purple;
+	color: purple;
+}
+
+.square.blue {
+	background-color: red;
+	color: red;
+}
+
+.square.green {
+	background-color: green;
+	color: green;
+}

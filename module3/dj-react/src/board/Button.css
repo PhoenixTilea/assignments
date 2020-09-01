@@ -1,0 +1,15 @@
+.dj-button {
+	background-color: black;
+	color: white;
+	padding: 1em;
+	border-radius: 25%;
+	border: 2px outset #eeeeee;
+}
+
+.dj-button:hover {
+	background-color: #333333;
+}
+
+.dj-button:active {
+	border-style: inset;
+}
