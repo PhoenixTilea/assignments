@@ -12,6 +12,7 @@ export default class Board extends React.Component {
 			colors: ["white", "white", "white", "white"]
 		};
 		this.handleClick = this.handleClick.bind(this);
+		this.audio = new Audio("../fuzzybeep.wav");
 	}
 	
 	handleClick(btn) {
@@ -54,6 +55,9 @@ export default class Board extends React.Component {
 			}
 		}
 		this.setState({colors: colors});
+		if (this.audio.readyState === 4) {
+			this.audio.play();
+		}
 	}
 	
 	render() {

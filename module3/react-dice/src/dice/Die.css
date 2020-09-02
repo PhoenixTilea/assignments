@@ -1,0 +1,10 @@
+.die {
+	border: 2px outset #eeeeee;
+	padding: 5px;
+	font-size: x-large;
+}
+
+.die.selected {
+	outline: 2px dashed #eeeeee;
+	background-color: blue;
+}
