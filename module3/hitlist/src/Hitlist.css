@@ -1,0 +1,19 @@
+.hitlist {
+	list-style-type: none;
+}
+
+.hitlist li {
+	display: grid;
+	grid-template-columns: auto auto;
+	grid-gap: 10px;
+	justify-contents: center;
+	text-align: left;
+}
+
+.hitlist li img {
+	text-align: right;
+}
+
+.hitlist li strong {
+	padding: 1em;
+}
