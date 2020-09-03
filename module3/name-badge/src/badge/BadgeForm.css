@@ -1,0 +1,29 @@
+.badge-form {
+	width: 50em;
+	margin: auto;
+	display: grid;
+	grid-template-columns: 25em 25em;
+}
+
+.badge-form label {
+	padding: 1em;
+}
+
+.badge-form label strong {
+	display: block;
+}
+
+.badge-form #about {
+	grid-column: 1 / -1;
+}
+
+.badge-form textarea {
+	width: 45em;
+	height: 4em;
+}
+
+.badge-form button {
+	grid-column: 1 / -1;
+	font-size: large;
+	padding: 1em;
+}

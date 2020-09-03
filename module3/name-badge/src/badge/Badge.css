@@ -1,0 +1,23 @@
+.badge {
+	width: 40em;
+}
+
+.badge h2 {
+	text-align: center;
+}
+
+.badge > div {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 49% 49%;
+	justify-content: space-between;
+}
+
+.badge > div strong {
+	text-align: right;
+}
+
+.badge > div.about {
+	display: block;
+	text-align: center;
+}

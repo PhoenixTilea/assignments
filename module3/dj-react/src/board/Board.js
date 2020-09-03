@@ -55,7 +55,7 @@ export default class Board extends React.Component {
 			}
 		}
 		this.setState({colors: colors});
-		if (this.audio.readyState === 4) {
+		if (this.audio.readyState === HTMLMediaElement.HAVE_ENOUGH_DATA) {
 			this.audio.play();
 		}
 	}
