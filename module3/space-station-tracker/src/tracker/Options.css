@@ -1,0 +1,15 @@
+.tracker-options {
+	width: 100%;
+}
+.tracker-options button {
+	width: 50%;
+	display: block;
+	margin: 1em;
+	padding: 1em;
+	border-radius: 25%;
+	border: 2px outset lightblue;
+}
+
+.tracker-options button:active {
+	border-style: inset;
+}

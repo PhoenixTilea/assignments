@@ -1,0 +1,5 @@
+.tracker {
+	display: grid;
+	grid-template-columns: 30% 60%;
+	justify-content: space-around;
+}
