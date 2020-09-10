@@ -1,0 +1,17 @@
+footer {
+	padding: 2em;
+	border-top: 2px outset;
+}
+
+footer.light-theme {
+	border-color: black;
+}
+
+footer.dark-theme {
+	border-color: #eeeeee;
+}
+
+footer.ocean-theme {
+	border-color: lightblue;
+	text-align: left;
+}

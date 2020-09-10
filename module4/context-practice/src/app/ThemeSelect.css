@@ -1,0 +1,17 @@
+form {
+	display: grid;
+	grid-template-columns: 20em 5em;
+	justify-content: center;
+}
+
+form.light-theme select, form.light-theme button {
+	background-color: lightgreen;
+}
+
+form.dark-theme select, form.dark-theme button {
+	background-color: black;
+}
+
+form.ocean-theme select, form.ocean-theme.button {
+	background-color: darkblue;
+}
