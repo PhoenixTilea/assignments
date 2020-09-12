@@ -2,3 +2,10 @@ body {
 	background-color: #020202;
 	color: lightblue;
 }
+
+h1 {
+	font-size: 72px;
+}
+h2 {
+	font-size: 56px;
+}

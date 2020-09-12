@@ -1,15 +1,18 @@
 .tracker-options {
 	width: 100%;
+	display: grid;
+	grid-template-columns: 20em 20em;
+	grid-gap: 4em;
+	justify-content: center;
 }
 .tracker-options button {
-	width: 50%;
-	display: block;
-	margin: 1em;
 	padding: 1em;
 	border-radius: 25%;
 	border: 2px outset lightblue;
 }
-
+.tracker-options button:hover {
+	background-color: darkblue;
+}
 .tracker-options button:active {
 	border-style: inset;
 }

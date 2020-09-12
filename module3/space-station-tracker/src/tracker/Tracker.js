@@ -2,7 +2,6 @@ import React from "react";
 import Axios from "axios";
 import Options from "./Options";
 import Display from "./Display";
-import "./Tracker.css";
 
 export default class Tracker extends React.Component {
 	constructor() {
@@ -15,23 +14,15 @@ export default class Tracker extends React.Component {
 			localTime: true,
 			cooldown: 0
 		};
-		this.handleClick = this.handleClick.bind(this);
 	}
 	
-	handleClick(e) {
-		let name = e.target.name;
-		switch (name) {
-			case "update": {
-				if (this.state.cooldown === 0) {
-					this.getLocation();
-				}
+	handleClick = (e) => {
+		if (e.target.name === "update") {
+			if (this.state.cooldown === 0) {
+				this.getLocation();
 			}
-			break;
-			
-			case "time": {
-				this.setState({localTime: !this.state.localTime});
-			}
-			break;
+		} else {
+			this.setState(prevState => ({localTime: !prevState.localTime}));
 		}
 	}
 	
@@ -56,7 +47,7 @@ export default class Tracker extends React.Component {
 					long: coors.longitude,
 					time: time,
 					countryName: country,
-					cooldown: 15
+					cooldown: 5
 				});
 				this.updateCooldown();
 			});
@@ -65,7 +56,7 @@ export default class Tracker extends React.Component {
 	
 	updateCooldown() {
 		let intervalId = setInterval(() => {
-			this.setState({cooldown: this.state.cooldown - 1});
+			this.setState(prevState => ({cooldown: prevState.cooldown - 1}));
 			if (this.state.cooldown === 0) {
 				clearInterval(intervalId);
 			}
