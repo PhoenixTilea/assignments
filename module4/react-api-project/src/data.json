@@ -1,0 +1,7 @@
+{
+	"baseUrl" : "https://api.thecatapi.com/v1/",
+	"themes" : [
+		"dark",
+		"light"
+	]
+}

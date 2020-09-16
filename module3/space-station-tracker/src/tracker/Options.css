@@ -9,6 +9,10 @@
 	padding: 1em;
 	border-radius: 25%;
 	border: 2px outset lightblue;
+	background-color: black;
+	color: lightblue;
+	font-size: large;
+	font-weight: bold;
 }
 .tracker-options button:hover {
 	background-color: darkblue;
