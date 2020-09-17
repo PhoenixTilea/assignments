@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { UserContext } from "../contexts/UserContext";
 
-export default function LoginForm(props) {
+export default function LoginForm() {
 	const [name, setName] = useState("");
+	const { login } = useContext(UserContext);
 	
 	const handleChange = (e) => setName(e.target.value);
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		props.login(name);
+		login(name);
 	};
 	
 	return (
@@ -14,8 +16,8 @@ export default function LoginForm(props) {
 			<label>
 				<strong>Username: </strong>
 				<input type="text" value={name} onChange={handleChange} required />
-				<button>Login</button>
 			</label>
+			<button>Login</button>
 		</form>
 	);
 }

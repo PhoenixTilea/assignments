@@ -5,8 +5,15 @@ const UserContext = React.createContext();
 function UserContextProvider(props) {
 	const [user, setUser] = useState(localStorage.user || null);
 	
-	const handleLogin = (user) => setUser(user);
-	const handleLogout = () => setUser(null);
+	const handleLogin = (newUser) => {
+		setUser(newUser);
+		localStorage.user = newUser;
+	};
+	
+	const handleLogout = () => {
+		setUser(null);
+		delete localStorage.user;
+	};
 	
 	return (
 		<UserContext.Provider value={{user: user, login: handleLogin, logout: handleLogout}}>

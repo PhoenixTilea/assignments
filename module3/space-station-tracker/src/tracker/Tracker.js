@@ -26,23 +26,63 @@ export default class Tracker extends React.Component {
 		}
 	}
 	
+	// getLocation() {
+		// // const params = {url: "http://api.open-notify.org/iss-now.json"};
+		// Axios.get("https://vschool-cors.herokuapp.com?url=http://api.open-notify.org/iss-now.json").then(response => {
+			// let coors = response.data.iss_position;
+			// let time = response.data.timestamp;
+			// let country = "the ocean";
+			// let params = {
+				// key : "3e27905d0be314",
+				// lat : coors.latitude,
+				// lon : coors.longitude,
+				// format : "json",
+				// zoom: 0
+			// };
+			// Axios.get(`https://us1.locationiq.com/v1/reverse.php`, {params: params}).then(geoResponse => {
+				// country = geoResponse.data.address.country;
+			// }).catch(error => console.log(error))
+			// .finally(() => {
+					// this.setState({
+					// lat: coors.latitude,
+					// long: coors.longitude,
+					// time: time,
+					// countryName: country,
+					// cooldown: 5
+				// });
+				// this.updateCooldown();
+			// });
+		// }).catch(error => console.log(error));
+	// }
+	
 	getLocation() {
-		Axios.get("http://api.open-notify.org/iss-now.json").then(response => {
-			let coors = response.data.iss_position;
-			let time = response.data.timestamp;
-			let country = "the ocean";
-			let params = {
-				key : "3e27905d0be314",
-				lat : coors.latitude,
-				lon : coors.longitude,
-				format : "json",
-				zoom: 0
-			};
-			Axios.get(`https://us1.locationiq.com/v1/reverse.php`, {params: params}).then(geoResponse => {
-				country = geoResponse.data.address.country;
-			}).catch(error => console.log(error))
-			.finally(() => {
-					this.setState({
+		// const params = {url: "http://api.open-notify.org/iss-now.json"};
+		let coors, time, country
+		Axios.get("https://vschool-cors.herokuapp.com?url=http://api.open-notify.org/iss-now.json")
+			.then(response => {
+				coors = response.data.iss_position;
+				time = response.data.timestamp;
+				let params = {
+					key : "3e27905d0be314",
+					lat : coors.latitude,
+					lon : coors.longitude,
+					format : "json",
+					zoom: 0
+				};
+				return Axios.get(`https://us1.locationiq.com/v1/reverse.php`, {params: params})
+			})
+			.then(
+				// If the above GET works...
+				geoResponse => {
+					country = geoResponse.data.address.country;
+				}, 
+				// If the above GET doesn't work...
+				err => {
+					country = "the ocean"
+				}
+			)
+			.then(() => {
+				this.setState({
 					lat: coors.latitude,
 					long: coors.longitude,
 					time: time,
@@ -50,8 +90,8 @@ export default class Tracker extends React.Component {
 					cooldown: 5
 				});
 				this.updateCooldown();
-			});
-		}).catch(error => console.log(error));
+			})
+			.catch(error => console.log(error))
 	}
 	
 	updateCooldown() {

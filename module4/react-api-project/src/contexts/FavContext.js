@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Axios from "axios";
-import UserContext from "./UserContext";
+import { UserContext } from "./UserContext";
 import { baseUrl } from "../data.json";
 
 const FavContext = React.createContext();
@@ -8,14 +8,6 @@ const FavContext = React.createContext();
 function FavContextProvider(props) {
 	const [favs, setFavs] = useState({});
 	const { user } = useContext(UserContext);
-	
-	useEffect(() => {
-		if (user !== null) {
-			getFavs();
-		} else {
-			setFavs({});
-		}
-	}, user);
 	
 	const getFavs = () => {
 		const params = {sub_id: user};
@@ -25,6 +17,14 @@ function FavContextProvider(props) {
 			setFavs(favsList);
 		});
 	};
+	
+	useEffect(() => {
+		if (user !== null) {
+			getFavs();
+		} else {
+			setFavs({});
+		} // eslint-disable-next-line
+	}, [user]);
 	
 	const addFav = (imgId) => {
 		const body = {image_id: imgId, sub_id: user };

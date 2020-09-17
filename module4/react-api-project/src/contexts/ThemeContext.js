@@ -6,9 +6,9 @@ const ThemeContext = React.createContext();
 function ThemeContextProvider(props) {
 	const [theme, setTheme] = useState(localStorage.theme || themes[0]);
 	
-	const changeTheme = (theme) => {
-		setTheme(theme);
-		localStorage.theme =  theme;
+	const changeTheme = (newTheme) => {
+		setTheme(newTheme);
+		localStorage.theme =  newTheme;
 	};
 	
 	return (

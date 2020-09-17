@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Switch, Route } from "react-router-dom";
-import { FavContextProvider } from "../context/FavContext";
+import { FavContextProvider } from "../contexts/FavContext";
 import Home from "./Home";
 import Categories from "./Categories";
 import Favorites from "./Favorites";
