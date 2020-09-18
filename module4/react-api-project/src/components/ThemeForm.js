@@ -9,7 +9,7 @@ export default function ThemeForm() {
 	const handleChange = (e) => setSelected(e.target.value);
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		changeTheme(theme);
+		changeTheme(selected);
 	};
 	
 	return (

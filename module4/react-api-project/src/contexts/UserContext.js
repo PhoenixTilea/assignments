@@ -6,6 +6,7 @@ function UserContextProvider(props) {
 	const [user, setUser] = useState(localStorage.user || null);
 	
 	const handleLogin = (newUser) => {
+		newUser = newUser.toLowerCase();
 		setUser(newUser);
 		localStorage.user = newUser;
 	};

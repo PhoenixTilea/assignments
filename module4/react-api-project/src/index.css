@@ -1,13 +1,87 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	height: 100%;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+button {
+	border: 2px outset;
+	border-radius: 10%;
+}
+button:active {
+	border-style: inset;
+}
+
+a {
+	font-weight: bold;
+	text-decoration: none;
+}
+
+/* ==========
+// Dark Theme
+// ========== */
+
+.dark-theme {
+	color: #eeeeee;
+}
+main.dark-theme {
+	background-color: #111111;
+}
+header.dark-theme, footer.dark-theme {
+	background-color: #222222;
+}
+
+.dark-theme * {
+	border-color: #eeeeee;
+}
+
+.dark-theme button {
+	color: #222222;
+}
+.dark-theme button:hover {
+	background-color: #333333;
+}
+
+.dark-theme a {
+	color: lightblue;
+}
+.dark-theme a:hover {
+	border-color: lightblue;
+}
+.dark-theme a:visited {
+	color: lightgreen;
+}
+
+/* ==========
+// Light Theme
+// ========== */
+
+.light-theme {
+	color: #111111;
+}
+main.light-theme {
+	background-color: #eeeeee;
+}
+header.light-theme, footer.light-theme {
+	background-color: #cccccc;
+}
+
+.light-theme * {
+	border-color: #111111;
+}
+
+.light-theme button {
+	color: #cccccc;
+}
+.light-theme button:hover {
+	background-color: #aaaaaa;
+}
+
+.light-theme a {
+	color: darkblue;
+}
+.light-theme a:hover {
+	border-color: darkblue;
+}
+.light-theme a:visited {
+	color: darkgreen;
 }

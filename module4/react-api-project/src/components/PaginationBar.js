@@ -4,25 +4,44 @@ export default function PaginationBar(props) {
 	const buildBar = () => {
 		const bar = [];
 		if (props.current > 0) {
-			bar.push(<a onclick={() => props.change(0)}>First</a>);
-			bar.push(<a onClick={() => props.change(props.current - 1)}>Prev</a>);
+			bar.push(<button role="link" onclick={() => props.change(0)}>First</button>);
+			bar.push(<button role="link" onClick={() => props.change(props.current - 1)}>Prev</button>);
 		}
-		for (let i = 1; i <= props.total; i++) {
-			if (i === current) {
-				bar.push(<strong>{i}</strong>);
+		let count = 1;
+		while (count <= props.total) {
+			if (count === props.current + 1) {
+				bar.push(<strong>{count}</strong>);
+			} else if ((count <= 5) ||
+				(count >= props.total - 5) ||
+				(count >= props.current - 1 && count <= props.current + 3))
+			{
+				let i = count;
+				bar.push(<button role="link" onClick={() => props.change(i - 1)}>{i}</button>);
 			} else {
-				bar.push(<a onClick={() => change(i)}>{i}</a>);
+				if (count < props.current) {
+					count = props.current - 1;
+				} else {
+					count = props.total - 5;
+				}
+				bar.push(<span> ... </span>);
+				continue;
 			}
+			count++;
 		}
-		if (props.current < props.total) {
-			bar.push(<a onClick={() => change(props.current + 1)}>Next</a>);
-			bar.push(<a onClick={() => change(props.total)}>Last</a>);
+		if (props.current < props.total - 1) {
+			bar.push(<button role="link" onClick={() => props.change(props.current + 1)}>Next</button>);
+			bar.push(<button role="link" onClick={() => props.change(props.total - 1)}>Last</button>);
 		}
 		return bar;
 	};
-	return (
-		<nav className="pagination-bar" aria-roledescription="pages navigation">
-		{buildBar()}
-		</nav>
-	);
+	
+	if (props.total > 1) {
+		return (
+			<nav className="pagination-bar" aria-roledescription="pages navigation">
+				{buildBar()}
+			</nav>
+		);
+	} else {
+		return <div></div>;
+	}
 }

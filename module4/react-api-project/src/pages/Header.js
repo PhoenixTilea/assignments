@@ -14,7 +14,7 @@ export default function Header() {
 			<h3>Because kitties make even 2020 better!</h3>
 			<nav>
 				<Link to="/">Home</Link>
-				<Link to="/categories">Categories</Link>
+				<Link to="/all">All Images</Link>
 				<Link to="/favs">Favorites</Link>
 			</nav>
 			<UserArea />

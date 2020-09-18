@@ -1,35 +1,26 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { FavContext } from "../contexts/FavContext";
 import { UserContext } from "../contexts/UserContext";
+import "./FavButton.css";
 
 export default function FavButton(props) {
 	const {favs, add, remove } = useContext(FavContext);
 	const { user } = useContext(UserContext);
-	const [favorited, setFavorited] = useState(false);
 	
 	const handleClick = () => {
-		setFavorited(prevState => {
-			if (prevState) {
-				remove(favs[props.imgId]);
-			} else {
-				add(props.imgId);
-			}
-			return !prevState;
-		});
+		if (favs[props.imgId]) {
+			remove(favs[props.imgId]);
+		} else {
+			add(props.imgId);
+		}
 	};
 	
-	useEffect(() => {
-		if (favs[props.imgId]) {
-			setFavorited(true);
-		}
-	}, [favs, user, props.imgId, setFavorited]);
-	
 	return (
-		<button onClick={handleClick} 
+		<button className="fav-button" onClick={handleClick} 
 			disabled={user === null} 
 			title={(user === null) ? "Login to favorite images" : undefined}
 		>
-			{favorited ? "Unfavorite" : "Favorite"}
+			{favs[props.imgId] !== undefined ? "Unfavorite" : "Favorite"}
 		</button>
 	);
 }

@@ -11,15 +11,15 @@ function FavContextProvider(props) {
 	
 	const getFavs = () => {
 		const params = {sub_id: user};
-		Axios.get(`${baseUrl}/favorites`, {params}).then(response => {
+		Axios.get(`${baseUrl}favourites`, {params}).then(response => {
 			const favsList = {};
 			response.data.map(fav => favsList[fav.image_id] = fav.id);
 			setFavs(favsList);
-		});
+		}).catch(err => console.log(err));
 	};
 	
 	useEffect(() => {
-		if (user !== null) {
+		if (user) {
 			getFavs();
 		} else {
 			setFavs({});
@@ -28,16 +28,17 @@ function FavContextProvider(props) {
 	
 	const addFav = (imgId) => {
 		const body = {image_id: imgId, sub_id: user };
-		Axios.post(`${baseUrl}/favorites`, body).then(response => {
-			const favId = response.data[0].id;
+		console.log(body);
+		Axios.post(`${baseUrl}favourites`, body).then(response => {
+			const favId = response.data.id;
 			setFavs(prevFavs => ({...prevFavs, [imgId] : favId }));
-		});
+		}).catch(err => console.log(err));
 	};
 	
 	const removeFav = (id) => {
-		Axios.delete(`${baseUrl}/favorites/${id}`).then(() => {
+		Axios.delete(`${baseUrl}favourites/${id}`).then(() => {
 			getFavs();
-		});
+		}).catch(err => console.log(err));
 	};
 	
 	return (

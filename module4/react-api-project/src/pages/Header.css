@@ -1,3 +1,19 @@
 header {
-	
+	display: grid;
+	grid-template-columns: 50% 25% 25%;
+	border-bottom: 2px solid;
+}
+
+header h1, header h3 {
+	grid-column: 1 / -1;
+}
+header h1 {
+	margin-bottom: 0;
+}
+header h3 {
+	font-style: italic;
+}
+
+header nav a {
+	padding: 2em;
 }

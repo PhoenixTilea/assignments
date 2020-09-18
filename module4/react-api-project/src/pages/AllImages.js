@@ -10,17 +10,19 @@ export default function AllImages() {
 	const [pageCount, setPageCount] = useState(0);
 	
 	useEffect(() => {
-		const params = {limit: 30, page: page, order: "desc"};
+		const params = {limit: 15, page: page, order: "desc"};
 		Axios.get(`${baseUrl}images/search`, {params}).then(response => {
 			setImages(response.data);
-			setPageCount(Math.ceil(response.headers["pagination-count] / 30));
-		});
+			setPageCount(Math.ceil(response.headers["pagination-count"] / 15));
+		}).catch(err => console.log(err));
 	}, [page]);
 	
-	render (
+	const changePage = (p) => setPage(p);
+	
+	return (
 		<>
 		<h2>All Images</h2>
-		<PaginationBar current={page} total={pageCount} change={setPage} />
+		<PaginationBar current={page} total={pageCount} change={changePage} />
 		<ImageGrid images={images} />
 		<PaginationBar current={page} total={pageCount} change={setPage} />
 		</>

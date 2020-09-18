@@ -1,0 +1,5 @@
+.fav-button {
+	width: minmax(10em, 500px);
+	padding: 1em;
+	font-size: large;
+}

@@ -19,11 +19,12 @@ export default function Home() {
 	
 	return (
 		<>
-			<LargeImage {...image} />
+		<h2>Random Kitty</h2>
 			<div className="buttons">
-				<FavButton imgId={image.image_id} />
+				<FavButton imgId={image.id} />
 				<button onClick={randomKitty}>Next Kitty!</button>
 			</div>
+			<LargeImage {...image} />
 		</>
 	);
 }

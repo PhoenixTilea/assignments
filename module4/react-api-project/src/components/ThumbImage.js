@@ -9,6 +9,8 @@ export default function ThumbImage(props) {
 	}
 	
 	return (
-		<img src={props.url} style={{width: w, height: h}} alt={props.alt || props.original_filename} />
+		<a href={props.url} target="_new">
+			<img src={props.url} style={{width: w, height: h}} alt={props.alt || "cat image"} />
+		</a>
 	);
 }

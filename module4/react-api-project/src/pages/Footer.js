@@ -7,7 +7,13 @@ export default function Footer() {
 	
 	return (
 		<footer className={`${theme}-theme`}>
-		
+			<h3>Copyright &copy; 2020 by Sabelyn Thorpe</h3>
+			<p>
+				Powered by 
+				<a href="http://reactjs.org" target="_new">React</a> 
+				and 
+				<a href="https://thecatapi.com" target="_new">TheCatAPI</a>.
+			</p>
 		</footer>
 	);
 }
