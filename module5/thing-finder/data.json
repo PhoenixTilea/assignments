@@ -1,0 +1,44 @@
+{
+	"things" : [
+		{
+			"name" : "Potted Plant",
+			"type" : "decoration",
+			"price" : 20
+		},
+		{
+			"name" : "T-shirt",
+			"type" : "clothing",
+			"price" : 10
+		},
+		{
+			"name" : "Knife-Wrench",
+			"type" : "tool",
+			"price" : 40
+		},
+		{
+			"name" : "Instant Noodles",
+			"type" : "food",
+			"price" : 1
+		},
+		{
+			"name" : "Bucket",
+			"type" : "tool",
+			"price" : 4
+		},
+		{
+			"name" : "Pants",
+			"type" : "clothing",
+			"price" : 25
+		},
+		{
+			"name" : "Cheesits",
+			"type" : "food",
+			"price" : 3
+		},
+		{
+			"name" : "Laser Pointer",
+			"type" : "toy",
+			"price" : 5
+		}
+	]
+}
