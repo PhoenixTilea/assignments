@@ -1,0 +1,13 @@
+#bounty-list {
+	list-style-type: none;
+}
+#bounty-list li {
+	display: grid;
+	grid-template-columns: 60% 40%;
+}
+#bounty-list li h2, #bounty-list li h3 {
+	margin: 0;
+}
+#bounty-list li button, #bounty-list li .dead {
+	grid-column-start: 2;
+}

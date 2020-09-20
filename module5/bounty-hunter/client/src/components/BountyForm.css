@@ -1,0 +1,13 @@
+#bounty-form {
+	display: grid;
+	grid-template-columns: auto auto;
+	grid-gap: 2em;
+}
+
+#bounty-form strong {
+	display: block;
+}
+
+#bounty-form input[type="number"] {
+	text-align: right;
+}

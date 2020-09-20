@@ -15,9 +15,9 @@ bountyRouter.route("/")
 .get((req, res) => res.send(bounties))
 .post((req, res) => {
 	const newBounty = req.body;
-	newBounty.id = uniqid();
+	newBounty._id = uniqid();
 	bounties.push(newBounty);
-	res.send(`${newBounty.firstname} ${newBounty.lastname} added successfully.`);
+	res.send({message: `${newBounty.firstname} ${newBounty.lastname} added successfully.`, bounty: newBounty});
 });
 
 bountyRouter.route("/:id")
@@ -31,13 +31,13 @@ bountyRouter.route("/:id")
 		for (let key in req.body) {
 			found[key] = req.body[key];
 		}
-		res.send(`${found.firstname} ${found.lastname} was successfully updated.`);
+		res.send({message: `${found.firstname} ${found.lastname} was successfully updated.`, bounty: found});
 	} else {
 		res.send("Invalid bounty id");
 	}
 })
 .delete((req, res) => {
-	const index = bounties.findIndex(b => b._id === id);
+	const index = bounties.findIndex(b => b._id === req.params.id);
 	if (index >= 0) {
 		const deleted = bounties.splice(index, 1);
 		res.send(`${deleted.firstname} ${deleted.lastName} was successfully removed.`);
