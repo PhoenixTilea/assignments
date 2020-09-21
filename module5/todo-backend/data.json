@@ -1,0 +1,22 @@
+{
+	"todos" : [
+		{
+			"name" : "Buy a New Soap Dispensor",
+			"desc" : "It... rusted?",
+			"completed" : false,
+			"img" : ""
+		},
+		{
+			"name" : "Get groceries",
+			"desc" : "Don't forget to make a list and bring a mask.",
+			"completed" : false,
+			"img" : ""
+		},
+		{
+			"name" : "Pick up prescriptions",
+			"desc" : "So much medicine...",
+			"completed" : true,
+			"img" : ""
+		}
+	]
+}
