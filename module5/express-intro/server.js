@@ -1,12 +1,17 @@
 const express = require("express");
-const movieRouter = require("./routes/movieRouter");
-const showRouter = require("./routes/showRouter");
+const morgan = require("morgan");
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost:27017/movies-db",
+{useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false },
+).then(() => console.log("Connected to the database"))
+.catch(err => console.log(err));
+
 const app = express();
-
+app.use(morgan("dev"));
 app.use(express.json());
-app.use("/movies", movieRouter);
-app.use("/shows", showRouter);
+app.use("/movies", require("./routes/movieRouter"));
+app.use("/shows", require("./routes/showRouter"));
+app.use(require("./middle/error"));
 
-app.get("/", (req, res) => res.send("Running..."));
-
-app.listen(8000, () => console.log("The server is running on port 8000"));
+const port = process.env.PORT || 8000;
+app.listen(port, () => console.log(`The server is running on port ${port}`));
