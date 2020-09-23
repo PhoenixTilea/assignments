@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { BountyContext } from "./BountyContext";
 import "./BountyForm.css";
 
 function BountyForm(props) {
@@ -12,17 +11,10 @@ function BountyForm(props) {
 		type: props.type
 	});
 	const fname = useRef(null);
-	const {add, update} = useContext(BountyContext);
 	
 	useEffect(() => {
-		setFields({
-		firstname: props.firstname,
-		lastname: props.lastname,
-		living: props.living,
-		amount: props.amount,
-		type: props.type
-	});
-	}, [props]);
+		fname.current.focus();
+	}, []);
 	
 	const handleChange = (e) => {
 	const {name, value, checked} = e.target;
@@ -35,13 +27,7 @@ function BountyForm(props) {
 	
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		if (props.submitText === "Add") {
-			add(fields);
-		} else {
-			update(props._id, fields);
-		}
-		props.clear();
-		fname.current.focus();
+		props.submit(fields);
 	};
 	
 	return (
@@ -69,7 +55,10 @@ function BountyForm(props) {
 				<input type="checkbox" name="living" value="living" checked={fields.living} onChange={handleChange} />
 				<strong>Living</strong>
 			</label>
-			<button>{props.submitText}</button>
+			<div>
+				<button>{props.submitText}</button>
+				<button onClick={props.cancel}>Cancel</button>
+			</div>
 		</form>
 	);
 }

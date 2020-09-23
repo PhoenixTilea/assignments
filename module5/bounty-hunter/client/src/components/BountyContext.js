@@ -13,7 +13,7 @@ function BountyContextProvider(props) {
 	
 	const add = (data) => {
 		axios.post("/bounties", data).then(res => {
-			const bounty = res.data.bounty;
+			const bounty = res.data;
 			setList(prevList => [...prevList, bounty]);
 		}).catch(err => console.error(err));
 	};
@@ -22,7 +22,7 @@ function BountyContextProvider(props) {
 		axios.put(`/bounties/${id}`, data).then(res => {
 			const l = list.slice();
 			const index = l.findIndex(b => b._id === id);
-			const updated = res.data.bounty;
+			const updated = res.data;
 			l.splice(index, 1, updated);
 			setList(l);
 		}).catch(err => console.error(err));
