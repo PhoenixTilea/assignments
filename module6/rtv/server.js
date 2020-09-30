@@ -2,8 +2,10 @@ const express = require("express");
 const expressJwt = require("express-jwt");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
+require("dotenv").config();
 
-mongoose.connect("mongodb://localhost:27017/rtv-db",
+mongoose.connect(
+	/*process.env.DB_URL ||*/ "mongodb://localhost:27017/rtv-db",
 	{useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false},
 ).then(() => console.log("Connected to the database"))
 .catch(err => console.error(err));
@@ -11,9 +13,14 @@ mongoose.connect("mongodb://localhost:27017/rtv-db",
 const app = express();
 app.use(morgan("dev"));
 app.use(express.json());
-app.use("/protected", expressJwt({secret: process.env.SECRET, algorithms: ["RS256"]}));
+
 app.use("/auth", require("./routes/authRouter"));
 app.use("/issues", require("./routes/issueRouter"));
+app.use("/comments", require("./routes/commentRouter"));
+
+app.use("/protected", expressJwt({secret: process.env.SECRET, algorithms: ["RS256"]}));
+app.use("/protected/issues", require("./routes/protectedIssueRouter"));
+app.use("/protected/comments", require("./routes/protectedCommentRouter"));
 
 app.use((err, req, res, next) => {
 	if (err.name === "UnauthorizedError") {

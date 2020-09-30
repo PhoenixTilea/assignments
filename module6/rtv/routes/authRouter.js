@@ -18,8 +18,8 @@ authRouter.post("/signup", (req, res, next) => {
 					res.status(500);
 					return next(err);
 				} else {
-					const token = jwt.sign(saved, process.env.SECRET);
-					res.status(201).send({user: saved, token: token});
+					const token = jwt.sign(saved.withoutPassword(), process.env.SECRET);
+					res.status(201).send({user: saved.withoutPassword(), token: token});
 				}
 			});
 		}
@@ -31,13 +31,21 @@ authRouter.post("/login", (req, res, next) => {
 		if (err) {
 			res.status(500);
 			return next(err);
-		} else if (!user || req.body.password !== user.password) {
+		} else if (!user) {
 			res.status(403);
 			return next(new Error("Username or password is incorrect."));
-		} else {
-			const token = jwt.sign(user, process.env.SECRET);
-			res.status(200).send({user, token});
 		}
+		user.checkPassword(req.body.password, (err, isMatch) => {
+			if (err) {
+				res.status(500);
+				return next(err);
+			} else if (!isMatch) {
+				res.status(403);
+				return next(new Error("Username or password is incorrect."));
+			}
+			const token = jwt.sign(user.withoutPassword(), process.env.SECRET);
+			res.status(200).send({user: user.withoutPassword(), token});
+		});
 	});
 });
 

@@ -9,6 +9,10 @@ const issueSchema = new Schema({
 		type: String,
 		required: true
 	},
+	postDate: {
+		type: Date,
+		default: Date.now()
+	},
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: "User",
