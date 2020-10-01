@@ -1,4 +1,5 @@
 const express = require("express");
+const User = require("../models/User");
 const Issue = require("../models/Issue");
 const Comment = require("../models/Comment");
 
@@ -56,60 +57,35 @@ issueRouter.route("/:issueId")
 
 // Voting
 issueRouter.put("/upvote/:issueId", (req, res, next) => {
-	const user = req.user;
-	const id = req.params.issueId;
-	const inc = (user.upVotedIssues.indexOf(id) < 0) ? 1 : -1;
-	Issue.findOneAndUpdate({_id: id}, {$inc : {upVotes: inc}}, {new: true}, (err, issue) => {
+	const user = User.findOne({_id: req.user._id}, (err, user) => {
 		if (err) {
 			res.status(500);
 			return next(err);
+		} else if (!user) {
+			res.status(404);
+			return next(new Error("User not found."));
 		}
-		if (inc === -1) {
-			User.findOneAndUpdate({_id: user._id}, { $pull : { upVotedIssues: id}}, {new: true}, (err, user) => {
-				if (err) {
-					res.status(500);
-					return next(err);
-				}
-			return res.status(202).send(user: user.withoutPassword(), issue});
-			});
+		const {issueId} = req.params;
+		const inc = (user.upVotedIssues.includes(issueId)) ? -1 : 1;
+		if (inc === 1) {
+			user.upVotedIssues.addToSet(issueId);
 		} else {
-			User.findOneAndUpdate({_id: user._id}, { $push : { upVotedIssues: id}}, {new: true}, (err, user) => {
-				if (err) {
-					res.status(500);
-					return next(err);
-				}
-			return res.status(202).send(user: user.withoutPassword(), issue});
-			});
+			user.upVotedIssues.pull(issueId);
 		}
+		Issue.findOneAndUpdate({_id: issueId}, {$inc: {upVotes: inc}}, {new: true}, (err, issue) => {
+			if (err) {
+				res.status(500);
+				return next(err);
+			} else if (!issue) {
+				res.status(404);
+				return next(new Error("Issue not found."));
+			}
+			res.status(202).send(issue);
+		});
 	});
 });
 issueRouter.put("/downvote/:issueId", (req, res, next) => {
-	const user = req.user;
-	const id = req.params.issueId;
-	const inc = (user.downVotedIssues.indexOf(id) < 0) ? 1 : -1;
-	Issue.findOneAndUpdate({_id: id}, {$inc : {downVotes: inc}}, {new: true}, (err, issue) => {
-		if (err) {
-			res.status(500);
-			return next(err);
-		}
-		if (inc === -1) {
-			User.findOneAndUpdate({_id: user._id}, { $pull : { downVotedIssues: id}}, {new: true}, (err, user) => {
-				if (err) {
-					res.status(500);
-					return next(err);
-				}
-			return res.status(202).send(user: user.withoutPassword(), issue});
-			});
-		} else {
-			User.findOneAndUpdate({_id: user._id}, { $push : { downVotedIssues: id}}, {new: true}, (err, user) => {
-				if (err) {
-					res.status(500);
-					return next(err);
-				}
-			return res.status(202).send(user: user.withoutPassword(), issue});
-			});
-		}
-	});
+	
 });
 
 module.exports = issueRouter;

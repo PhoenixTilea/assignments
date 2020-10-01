@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Issue from "../components/Issue";
+import IssueList from "../components/IssueList";
 
 export default function Home() {
 	const [issues, setIssues] = useState([]);
@@ -9,14 +9,13 @@ export default function Home() {
 		axios.get("/issues").then(response => {
 			setIssues(response.data);
 		}).catch(err => console.error(err));
+		// eslint-disable-next-line
 	}, []);
 	
 	return (
 		<>
 			<h1>Issues</h1>
-			<ul id="issues">
-				{issues.map(issue => <Issue key={issue._id} {...issue} />)}
-			</ul>
+			<IssueList issues={issues} setIssues={setIssues} />
 		</>
 	);
 }

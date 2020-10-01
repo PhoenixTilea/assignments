@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 export default function AddIssue() {
-	const { addIssue } = useContext(UserContext);
+	const { userAxios } = useContext(UserContext);
 	const [fields, setFields] = useState({
 		title: "",
 		description: ""
@@ -17,9 +17,8 @@ export default function AddIssue() {
 	
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		addIssue(fields);
-		setFields({title: "", description: ""});
-		setRedirect("/profile");
+		userAxios.post("/protected/issues", fields).then(() => setRedirect("/profile"))
+			.catch(err => console.error(err));
 	};
 	
 	return (

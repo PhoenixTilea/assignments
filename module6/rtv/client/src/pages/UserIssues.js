@@ -1,16 +1,20 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
-import Issue from "../components/Issue";
+import IssueList from "../components/IssueList";
 
-export default function UserIssue() {
-	const { issues } = useContext(UserContext);
+export default function UserIssues() {
+	const { userAxios } = useContext(UserContext);
+	const [issues, setIssues] = useState([]);
+	
+	useEffect(() => {
+		userAxios.get("/protected/issues").then(response => setIssues(response.data))
+			.catch(err => console.error(err));
+	}, []);
 	
 	return (
 		<>
 		<h1>Your Issues</h1>
-		<ul id="issues">
-		{issues.map(issue => <Issue key={issue._id} {...issue} />)}
-		</ul>
+		<IssueList issues={issues} setIssues={setIssues} />
 		</>
 	);
 }

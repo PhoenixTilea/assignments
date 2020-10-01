@@ -8,6 +8,7 @@ export default function AuthPage(props) {
 	
 	useEffect(() => {
 		setError("");
+		// eslint-disable-next-line
 	}, [props.signup]);
 	
 	return (

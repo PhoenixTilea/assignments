@@ -17,10 +17,13 @@ app.use(express.json());
 app.use("/auth", require("./routes/authRouter"));
 app.use("/issues", require("./routes/issueRouter"));
 app.use("/comments", require("./routes/commentRouter"));
+app.use("/user", require("./routes/userRouter"));
 
-app.use("/protected", expressJwt({secret: process.env.SECRET, algorithms: ["RS256"]}));
+// Protected routes
+app.use("/protected", expressJwt({secret: process.env.SECRET, algorithms: ["HS256"]}));
 app.use("/protected/issues", require("./routes/protectedIssueRouter"));
 app.use("/protected/comments", require("./routes/protectedCommentRouter"));
+app.use("/protected/user", require("./routes/protectedUserRouter"));
 
 app.use((err, req, res, next) => {
 	if (err.name === "UnauthorizedError") {
