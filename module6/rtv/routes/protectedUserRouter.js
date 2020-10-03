@@ -3,7 +3,7 @@ const User = require("../models/User");
 
 const userRouter = express.Router();
 userRouter.get("/", (req, res, next) => {
-	User.findOne({_id: req.user._id}, (err, user) => {
+	User.findById(req.user._id, (err, user) => {
 		if (err) {
 			res.status(500);
 			return next(err);

@@ -4,18 +4,8 @@ const Issue = require("../models/Issue");
 const Comment = require("../models/Comment");
 
 const issueRouter = express.Router();
-// Protected Routes
-issueRouter.route("/")
-.get((req, res, next) => {
-	Issue.find({user: req.user._id}, (err, issues) => {
-		if (err) {
-			res.status(500);
-			return next(err);
-		}
-		res.status(200).send(issues);
-	});
-})
-.post((req, res, next) => {
+
+issueRouter.post("/", (req, res, next) => {
 	req.body.user = req.user._id;
 	const newIssue = new Issue(req.body);
 	newIssue.save((err, saved) => {
@@ -30,62 +20,86 @@ issueRouter.route("/")
 // Update and delete
 issueRouter.route("/:issueId")
 .put((req, res, next) => {
-	Issue.findOneAndUpdate({_id: req.params.issueId, user: req.user._id}, req.body, {new: true},
-	(err, issue) => {
+	Issue.findByIdAndUpdate(req.params.issueId, req.body, {new: true}, (err, issue) => {
 		if (err) {
 			res.status(500);
 			return next(err);
 		}
-		return res.status(202).send(issue);
+		return res.status(200).send(issue);
 	});
 })
 .delete((req, res, next) => {
-	Issue.findOneAndDelete({_id: req.params.issueId, user: req.user._id}, (err, issue) => {
+	Issue.findByIdAndDelete(req.params.issueId, (err, issue) => {
 		if (err) {
 			res.status(500);
 			return next(err);
+		} else if (!issue) {
+			res.status(404);
+			return next(new Error("Issue not found."));
 		}
-		Comment.findAndDelete({issue: issue._id}, (err, comments) => {
+		Comment.deleteMany({issue: issue._id}, (err, comments) => {
 			if (err) {
 				res.status(500);
 				return next(err);
 			}
-		return res.status(203).send({message: `${issue.title} was deleted.`});
+		return res.status(200).send({message: `${issue.title} was deleted.`});
 		});
 	});
 });
 
 // Voting
 issueRouter.put("/upvote/:issueId", (req, res, next) => {
-	const user = User.findOne({_id: req.user._id}, (err, user) => {
+	const user = req.user;
+	const issueId = req.params.issueId;
+	let inc;
+	let voteMod;
+	if (user.upVotedIssues.includes(issueId)) {
+		inc = {$inc: {upVotes: -1}};
+		voteMod = {$pull: {upVotedIssues: issueId}};
+	} else {
+		inc = {$inc: {upVotes: 1}};
+		voteMod = {$push: {upVotedIssues: issueId}};
+	}
+	User.findByIdAndUpdate(user._id, null, voteMod, (err, upUser) => {
 		if (err) {
 			res.status(500);
 			return next(err);
-		} else if (!user) {
-			res.status(404);
-			return next(new Error("User not found."));
 		}
-		const {issueId} = req.params;
-		const inc = (user.upVotedIssues.includes(issueId)) ? -1 : 1;
-		if (inc === 1) {
-			user.upVotedIssues.addToSet(issueId);
-		} else {
-			user.upVotedIssues.pull(issueId);
-		}
-		Issue.findOneAndUpdate({_id: issueId}, {$inc: {upVotes: inc}}, {new: true}, (err, issue) => {
+		Issue.findByIdAndUpdate(issueId, null, inc, (err, upIssue) => {
 			if (err) {
 				res.status(500);
 				return next(err);
-			} else if (!issue) {
-				res.status(404);
-				return next(new Error("Issue not found."));
 			}
-			res.status(202).send(issue);
+			return res.status(200).send({user: upUser.withoutPassword(), issue: upIssue});
 		});
 	});
 });
+
 issueRouter.put("/downvote/:issueId", (req, res, next) => {
-	
+	const user = req.user;
+	const issueId = req.params.issueId;
+	let inc;
+	let voteMod;
+	if (user.downVotedIssues.includes(issueId)) {
+		inc = {$inc: {downVotes: -1}};
+		voteMod = {$pull: {downVotedIssues: issueId}};
+	} else {
+		inc = {$inc: {downVotes: 1}};
+		voteMod = {$push: {downVotedIssues: issueId}};
+	}
+	User.findByIdAndUpdate(user._id, voteMod, (err, downUser) => {
+		if (err) {
+			res.status(500);
+			return next(err);
+		}
+		Issue.findByIdAndUpdate(issueId, inc, {new: true}, (err, downIssue) => {
+			if (err) {
+				res.status(500);
+				return next(err);
+			}
+			return res.status(200).send({user: downUser.withoutPassword(), issue: downIssue});
+		});
+	});
 });
 
 module.exports = issueRouter;

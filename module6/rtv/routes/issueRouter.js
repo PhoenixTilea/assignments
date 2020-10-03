@@ -5,23 +5,17 @@ const issueRouter = express.Router();
 
 // Get all issues
 issueRouter.get("/", (req, res, next) => {
-	Issue.find((err, issues) => {
+	const filters = {};
+	if (req.query) {
+		if (req.query.user) {
+			filters.user = req.query.user;
+		}
+	}
+	Issue.find(filters, null, {$sort: {upVotes: -1, postDate: -1}}, (err, issues) => {
 		if (err) {
 			res.status(500);
 			return next(err);
 		}
-		issues.sort((a, b) => {
-			let v = a.upVotes - b.upVotes;
-			if (v !== 0) {
-				return v;
-			}
-			if (a.postDate < b.postDate) {
-				return -1;
-			} else if (a.postDate > b.postDate) {
-				return 1;
-			}
-			return 0;
-		});
 		return res.status(200).send(issues);
 	});
 });
