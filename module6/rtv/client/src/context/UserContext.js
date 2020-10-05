@@ -12,16 +12,22 @@ export function UserContextProvider(props) {
 	});
 	const [error, setError] = useState("");
 	
-	userAxios.interceptors.request.use((config) => {
-		config.headers.Authorization = `Bearer ${auth.token}`;
-		return config;
-	});
-	
 	useEffect(() => {
 		if (auth.token) {
 			updateUser();
 		} // eslint-disable-next-line
 	}, []);
+	
+	let authInt;
+	useEffect(() => {
+		axios.interceptors.request.eject(authInt);
+		if (auth.token) {
+			authInt = userAxios.interceptors.request.use((config) => {
+				config.headers.Authorization = `Bearer ${auth.token}`;
+				return config;
+			});
+		}
+	}, [auth.token]);
 	
 	const updateUser = () => {
 		userAxios.get("/protected/user").then(response => {
