@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import { Redirect } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
+import { IssueContext } from "../context/IssueContext";
 
 export default function AddIssue() {
-	const { userAxios } = useContext(UserContext);
+	const { addIssue } = useContext(IssueContext);
 	const [fields, setFields] = useState({
 		title: "",
 		description: ""
@@ -17,8 +17,8 @@ export default function AddIssue() {
 	
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		userAxios.post("/protected/issues", fields).then(() => setRedirect("/profile"))
-			.catch(err => console.error(err));
+		addIssue(fields);
+		setRedirect("/");
 	};
 	
 	return (

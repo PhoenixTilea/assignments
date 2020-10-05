@@ -3,109 +3,81 @@ import { UserContext } from "../context/UserContext";
 
 export default function Issue(props) {
 	const { user } = useContext(UserContext);
-	const [vote, setVote] = useState({
-		canVote: false,
-		hasVote: false
+	const [edit, setEdit] = useState({
+		editing: false,
+		title: props.title,
+		description: props.description
 	});
-	const [buttonState, setButtonState] = useState({
-		up: {
-			disabled: true,
-			title: "Login or create an account to vote"
-		},
-		down: {
-			disabled: true,
-			title: "Login or create an account to vote"
-		}
-	});
-	
-	useEffect(() => {
-		let has;
-		if (user.username) {
-			if (user.upVotedIssues.indexOf(props._id) >= 0) {
-				has = "u";
-			} else if (user.downVotedIssues.indexOf(props._id) >= 0) {
-				has = "d";
-			} else {
-				has = false;
-			}
-			setVote({canVote: true, hasVote: has});
-		} else {
-			setVote({canVote: false, hasVote: false});
-		}
-		// eslint-disable-next-line
-	}, [user]);
-	
-	useEffect(() => {
-		const up = {...buttonState.up};
-		const down = {...buttonState.down};
-		if (!vote.canVote) {
-			up.disabled = true;
-			up.title = "Login or create an account to vote";
-			down.disabled = true;
-			down.title = "Login or create an account to vote";
-		} else {
-			if (!vote.hasVote) {
-				up.disabled = false;
-				up.title = "Upvote";
-				down.disabled = false;
-				down.title = "Downvote";
-			} else if (vote.hasVote === "u") {
-				up.disabled = false;
-				up.title = "Remove Upvote";
-				down.disabled = true;
-				down.title = "Already Voted";
-			} else {
-				up.disabled = true;
-				up.title = "Already Voted";
-				down.disabled = false;
-				down.title = "Remove Downvote";
-			}
-		}
-		setButtonState({up, down});
-		// eslint-disable-next-line
-	}, [vote]);
 	
 	const handleClick = (e) => {
-		const name = e.target.name;
+		const { name } = e.target;
 		switch (name) {
+			case "edit":
+				setEdit(prevEdit => ({...prevEdit, editing: true}));
+			break;
+			case "cancel":
+				setEdit({
+					title: props.title,
+					description: props.description,
+					editing: false
+				});
+			break;
 			case "delete":
-				const del = window.confirm("Are you sure you want to delete this issue?");
-				if (del) {
-					props.deleteIssue(props._id);
-				}
-			break;
-			case "up":
-				props.upVote(props._id);
-			break;
-			case "down":
-				props.downVote(props._id);
+				props.deleteIssue(props._id);
 			break;
 			default: break;
 		}
 	};
 	
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setEdit(prevEdit => ({...prevEdit, [name] : value}));
+	};
+	
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const data = {};
+		if (edit.title !== props.title) {
+			data.title = edit.title;
+		}
+		if (edit.description !== props.description) {
+			data.description = edit.description;
+		}
+		if (data) {
+			props.updateIssue(props._id, data);
+		}
+		setEdit(prevEdit => ({...prevEdit, editing: false}));
+	};
+	
 	return (
-		<li id={props._id} className="issue">
-			<h2>{props.title}</h2>
-			<h3>{`Posted by ${props.author}`}</h3>
-			<p>{props.description}</p>
-				{(user._id === props.user) && <div className="mod-buttons">
-					<button name="delete" onClick={handleClick}>Delete</button>
-				</div>}
-				<div className="vote">
-					<div className="up">
-						<span>{props.upVotes}</span>
-						<button name="up" onClick={handleClick} disabled={buttonState.up.disabled} title={buttonState.up.title}>
-							Up
-						</button>
+		<div className="issue">
+			{(edit.editing) ? <form onSubmit={handleSubmit}>
+					<label>
+						<strong>Title: </strong>
+						<input type="text" name="title" value={edit.title} onChange={handleChange} required />
+					</label>
+					<label>
+						<strong>Description: </strong>
+						<textarea name="description" value={edit.description} onChange={handleChange} required></textarea>
+					</label>
+					<button>Save</button>
+					<button name="cancel" onClick={handleClick}>Cancel</button>
+				</form>
+				: <>
+					<h2>{props.title}</h2>
+					<p>{props.description}</p>
+					<p>{props.user}</p>
+					<p>{user._id}</p>
+					<div className="votes">
+					
 					</div>
-					<div className="down">
-						<span>{props.downVotes}</span>
-						<button name="down" onClick={handleClick} disabled={buttonState.down.disabled} title={buttonState.down.title}>
-							Down
-						</button>
-					</div>
-				</div>
-		</li>
+					{(user && user._id === props.user) && <div className="mod-buttons">
+							<button name="edit" onClick={handleClick}>Edit</button>
+							<button name="delete" onClick={handleClick}>Delete</button>
+						</div>
+					}
+				</>
+			}
+		</div>
 	);
 }

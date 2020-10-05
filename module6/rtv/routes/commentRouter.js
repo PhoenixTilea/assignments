@@ -8,7 +8,8 @@ commentRouter.get("/:issueId", (req, res, next) => {
 			res.status(500);
 			return next(err);
 		}
-	res.status(200).send(comments);
+		res.status(200).send(comments);
+	});
 });
 
 module.exports = commentRouter;
