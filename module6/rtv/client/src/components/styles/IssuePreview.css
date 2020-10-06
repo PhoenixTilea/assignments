@@ -1,0 +1,12 @@
+.issue-preview {
+	padding: 2em;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+}
+.issue-preview:hover {
+	background-color: #222222;
+}
+.issue-preview strong {
+	font-size: large;
+}

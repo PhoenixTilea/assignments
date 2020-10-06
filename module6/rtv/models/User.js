@@ -16,20 +16,6 @@ const userSchema = new Schema({
 	memberSince: {
 		type: Date,
 		default: Date.now()
-	},
-	upVotedIssues: {
-		type: [{
-			type: Schema.Types.ObjectId,
-			ref: "Issue"
-		}],
-		default: []
-	},
-	downVotedIssues: {
-		type: [{
-			type: Schema.Types.ObjectId,
-			ref: "Issue"
-		}],
-		default: []
 	}
 });
 userSchema.pre("save", function (next) {

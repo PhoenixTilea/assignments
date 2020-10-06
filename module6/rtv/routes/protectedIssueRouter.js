@@ -49,55 +49,50 @@ issueRouter.route("/:issueId")
 
 // Voting
 issueRouter.put("/upvote/:issueId", (req, res, next) => {
-	const user = req.user;
-	const issueId = req.params.issueId;
-	let inc;
-	let voteMod;
-	if (user.upVotedIssues.includes(issueId)) {
-		inc = {$inc: {upVotes: -1}};
-		voteMod = {$pull: {upVotedIssues: issueId}};
-	} else {
-		inc = {$inc: {upVotes: 1}};
-		voteMod = {$push: {upVotedIssues: issueId}};
-	}
-	User.findByIdAndUpdate(user._id, null, voteMod, (err, upUser) => {
+	const user = req.user._id;
+	Issue.findById(req.params.issueId, (err, issue) => {
 		if (err) {
 			res.status(500);
 			return next(err);
+		} else if (!issue) {
+			res.status(404);
+			return next(new Error("Issue not found."));
 		}
-		Issue.findByIdAndUpdate(issueId, null, inc, (err, upIssue) => {
+		if (issue.upVotes.includes(user)) {
+			issue.upVotes.pull(user);
+		} else {
+			issue.upVotes.addToSet(user);
+		}
+		issue.save((err, savedIssue) => {
 			if (err) {
 				res.status(500);
 				return next(err);
 			}
-			return res.status(200).send({user: upUser.withoutPassword(), issue: upIssue});
+			return res.status(200).send(savedIssue);
 		});
 	});
 });
-
 issueRouter.put("/downvote/:issueId", (req, res, next) => {
-	const user = req.user;
-	const issueId = req.params.issueId;
-	let inc;
-	let voteMod;
-	if (user.downVotedIssues.includes(issueId)) {
-		inc = {$inc: {downVotes: -1}};
-		voteMod = {$pull: {downVotedIssues: issueId}};
-	} else {
-		inc = {$inc: {downVotes: 1}};
-		voteMod = {$push: {downVotedIssues: issueId}};
-	}
-	User.findByIdAndUpdate(user._id, voteMod, (err, downUser) => {
+	const user = req.user._id;
+	Issue.findById(req.params.issueId, (err, issue) => {
 		if (err) {
 			res.status(500);
 			return next(err);
+		} else if (!issue) {
+			res.status(404);
+			return next(new Error("Issue not found."));
 		}
-		Issue.findByIdAndUpdate(issueId, inc, {new: true}, (err, downIssue) => {
+		if (issue.downVotes.includes(user)) {
+			issue.downVotes.pull(user);
+		} else {
+			issue.downVotes.addToSet(user);
+		}
+		issue.save((err, savedIssue) => {
 			if (err) {
 				res.status(500);
 				return next(err);
 			}
-			return res.status(200).send({user: downUser.withoutPassword(), issue: downIssue});
+			return res.status(200).send(savedIssue);
 		});
 	});
 });

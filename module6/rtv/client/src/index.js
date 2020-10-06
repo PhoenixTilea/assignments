@@ -4,6 +4,7 @@ import { BrowserRouter} from "react-router-dom";
 import { UserContextProvider } from "./context/UserContext";
 import { IssueContextProvider } from "./context/IssueContext";
 import App from "./App";
+import "./index.css";
 
 ReactDom.render(
 	<BrowserRouter>

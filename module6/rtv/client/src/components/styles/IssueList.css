@@ -1,0 +1,16 @@
+#issue-page {
+	display: grid;
+	grid-template-columns: 30% 70%;
+}
+
+#issue-list {
+	height: 100vh;
+	overflow-y: auto;
+}
+
+.issue {
+	border: 2px solid #eeeeee;
+	padding: 2em;
+	height: 100vh;
+	overflow-y: auto;
+}

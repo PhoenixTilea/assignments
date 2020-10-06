@@ -33,14 +33,6 @@ export function IssueContextProvider(props) {
 			setIssues(updatedIssues);
 		}).catch(err => console.error(err));
 	};
-	const updateComment = (id, data) => {
-		userAxios.put(`/protected/comments/${id}`, data).then(response => {
-			const index = comments.findIndex(comment => comment._id === response.data._id);
-			const updatedComments = [...comments];
-			updatedComments[index] = response.data;
-			setComments(updatedComments);
-		}).catch(err => console.error(err));
-	};
 	
 	const deleteIssue = (id) => {
 		userAxios.delete(`/protected/issues/${id}`).then(response => {
@@ -65,7 +57,25 @@ export function IssueContextProvider(props) {
 			.catch(err => console.error(err));
 	};
 	
-	const value = { issues, comments, addIssue, addComment, updateIssue, updateComment, deleteIssue, deleteComment, getUserIssues, getComments };
+	const upVoteIssue = (id) => {
+		userAxios.put(`/protected/issues/upvote/${id}`).then(response => {
+			const index = issues.findIndex(issue => issue._id === id);
+			const updatedIssues = [...issues];
+			updatedIssues.splice(index, 1, response.data);
+			setIssues(updatedIssues);
+		}).catch(err => console.error(err));
+	};
+	
+	const downVoteIssue = (id) => {
+		userAxios.put(`/protected/issues/downvote/${id}`).then(response => {
+			const index = issues.findIndex(issue => issue._id === id);
+			const updatedIssues = [...issues];
+			updatedIssues.splice(index, 1, response.data);
+			setIssues(updatedIssues);
+		}).catch(err => console.error(err));
+	};
+	
+	const value = { issues, comments, addIssue, addComment, updateIssue, deleteIssue, deleteComment, getUserIssues, getComments , upVoteIssue, downVoteIssue};
 	return (
 		<IssueContext.Provider value={value}>
 			{props.children}

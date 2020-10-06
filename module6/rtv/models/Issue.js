@@ -19,12 +19,18 @@ const issueSchema = new Schema({
 		required: true
 	},
 	upVotes: {
-		type: Number,
-		default: 0
+		type : [{
+			type: Schema.Types.ObjectId,
+			ref: "User"
+		}],
+		default: []
 	},
 	downVotes: {
-		type: Number,
-		default: 0
+		type : [{
+			type: Schema.Types.ObjectId,
+			ref: "User"
+		}],
+		default: []
 	}
 });
 
