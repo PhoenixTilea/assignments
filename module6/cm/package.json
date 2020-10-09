@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd client && npm install && npm run build && cd .."
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "keywords": [
     "dnd",
@@ -16,7 +17,8 @@
     "encounter",
     "tracker",
     "dungeons",
-    "dragons"
+    "dragons",
+    "campaign"
   ],
   "author": "Sabelyn Thorpe",
   "license": "MIT",
@@ -28,7 +30,6 @@
     "express-jwt": "^6.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.8",
-    "morgan": "^1.10.0",
-    "react-router-dom": "^5.2.0"
+    "morgan": "^1.10.0"
   }
 }

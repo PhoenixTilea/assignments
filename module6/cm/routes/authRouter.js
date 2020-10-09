@@ -5,14 +5,23 @@ const User = require("../models/User");
 const authRouter = express.Router();
 
 authRouter.post("/signup", (req, res, next) => {
-	const newUser = new User(req.body);
-	newUser.save((err, savedUser) => {
+	User.find({username: req.body.username}, (err, user) => {
 		if (err) {
 			res.status(500);
 			return next(err);
+		} else if (user) {
+			res.status(403);
+			return next(new Error("Sorry, that username is unavailable."));
 		}
-		const token = jwt.sign(savedUser.withoutPassword(), process.env.SECRET);
-		return res.status(201).send({user: savedUser.withoutPassword(), token});
+		const newUser = new User(req.body);
+		newUser.save((err, savedUser) => {
+			if (err) {
+				res.status(500);
+				return next(err);
+			}
+			const token = jwt.sign(savedUser.withoutPassword(), process.env.SECRET);
+			return res.status(201).send({user: savedUser.withoutPassword(), token});
+		});
 	});
 });
 

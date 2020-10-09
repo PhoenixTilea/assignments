@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const expressJwt = require("express-jwt");
 const morgan = require("morgan");
 require("dotenv").config();
@@ -10,8 +11,12 @@ require("mongoose").connect(process.env.DB_URL,
 const app = express();
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(express.static(path.resolve(__dirname, "client", "build")));
 
 // Public routes
+app.get("/*", (req, res) => {
+	res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
 app.use("/auth", require("./routes/authRouter"));
 
 
