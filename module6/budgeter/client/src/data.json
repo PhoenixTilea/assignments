@@ -1,0 +1,24 @@
+{
+	"accTypes" : [
+		{
+			"name" : "cash",
+			"value" : "cash"
+		},
+		{
+			"name" : "checking",
+			"value" : "checking"
+		},
+		{
+			"name" : "savings",
+			"value" : "savings"
+		},
+		{
+			"name" : "credit card",
+			"value" : "credit"
+		},
+		{
+			"name" : "other",
+			"value" : "other"
+		}
+	]
+}
