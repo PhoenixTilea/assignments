@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { accTypes } from "../data.json";
 
-export default function NewAccForm(props) {
-	const {add } = props;
+export default function AccForm(props) {
+	const {add, update } = props;
 	const [fields, setFields] = useState({
-		name: "",
-		type: null,
-		balance: 0
+		name: props.name || "",
+		type: props.type || null,
+		balance: props.balance || 0
 	});
 	const auto = useRef(null);
 	const submit = useRef(null);
@@ -25,8 +25,11 @@ export default function NewAccForm(props) {
 		e.preventDefault();
 		submit.current.setAttribute("disabled", true);
 		submit.current.focus();
-		
-		add(fields);
+		if (add) {
+			add(fields);
+		} else {
+			update(fields);
+		}
 	};
 	
 	return (
@@ -46,7 +49,7 @@ export default function NewAccForm(props) {
 				<strong>Current Balance: </strong>
 				<input type="number" name="balance" value={fields.balance} step={0.01} onChange={handleChange} required />
 			</label>
-			<button ref={submit}>Add Account</button>
+			<button ref={submit}>{(add) ? "Add Account" : "Save Changes"}</button>
 		</form>
 	);
 }

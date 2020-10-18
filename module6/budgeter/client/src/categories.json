@@ -1,0 +1,34 @@
+{
+	"expense" : [
+		"Alcohol",
+		"child Care",
+		"Child Support",
+		"Cigarettes/Tabacco",
+		"Clothing",
+		"Dine in/Takeout",
+		"Entertainment",
+		"Gas",
+		"Groceries",
+		"Healthcare/Medication",
+		"Insurance",
+		"Misc",
+		"Phone/Internet/TV",
+		"Rent/Mortgage",
+		"Repairs",
+		"Tax",
+		"Trash",
+		"Utilities"
+	],
+	"income" : [
+		"Child Support/Allamony",
+		"Disability",
+		"Donations",
+		"Food Stamps",
+		"Gifts",
+		"Misc",
+		"Odd Jobs",
+		"Social Security/SSI",
+		"Tips",
+		"Wages"
+	]
+}

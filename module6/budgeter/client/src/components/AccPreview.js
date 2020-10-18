@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import EditAccountBtn from "./EditAccountBtn";
 import { formatMoney } from "../util";
 
 export default function AccPreview(props) {
@@ -14,6 +15,9 @@ export default function AccPreview(props) {
 			<div className="balance">
 				<h4>CurrentBalance</h4>
 				<h3>{formatMoney(balance)}</h3>
+			</div>
+			<div>
+				<EditAccountBtn account={props} />
 			</div>
 		</li>
 	);

@@ -17,6 +17,7 @@ app.use("/auth", require("./routes/authRouter"));
 app.use("/api", expressJwt({secret: process.env.SECRET, algorithms: ["HS256"]}));
 app.use("/api/user", require("./routes/userRouter"));
 app.use("/api/accounts", require("./routes/accRouter"));
+app.use("/api/transactions", require("./routes/transRouter"));
 
 // Errors
 app.use((err, req, res, next) => {

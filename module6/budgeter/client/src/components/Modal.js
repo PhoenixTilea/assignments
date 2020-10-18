@@ -1,4 +1,4 @@
-import React, { createContext, createRef, useEffect, useContext } from "react";
+import React, { createContext, useEffect, useContext, useRef } from "react";
 import { createPortal } from "react-dom";
 import "./Modal.css";
 
@@ -15,7 +15,7 @@ export default function Modal({children, onModalClose}) {
 		// eslint-disable-next-line
 	}, []);
 	
-	const modalRef = createRef();
+	const modalRef = useRef(null);
 	const handleTabKey = e => {
 		const focusable = modalRef.current.querySelectorAll(
 		"a, button, textarea, input, select"

@@ -5,17 +5,17 @@ const AccContext = React.createContext();
 export default AccContext;
 
 export function AccContextProvider(props) {
-	const { user, userAxios } = useContext(UserContext);
+	const { token, userAxios } = useContext(UserContext);
 	const [accounts, setAccounts] = useState([]);
 	
 	useEffect(() => {
-		if (user) {
+		if (token) {
 			userAxios.get("/api/accounts").then(response => {
 				setAccounts(response.data);
 			}).catch(err => console.error(err));
 		}
 		// eslint-disable-next-line
-	}, [user]);
+	}, [token]);
 	
 	const addAccount = data => {
 		userAxios.post("/api/accounts", data).then(response => {
@@ -39,7 +39,36 @@ export function AccContextProvider(props) {
 		}).catch(err => console.error(err));
 	};
 	
-	const value = { accounts, addAccount, updateAccount, deleteAccount };
+	const addTransaction = (accId, data) => {
+		userAxios.post(`/api/transactions/${accId}`, data).then(response => {
+			const index = accounts.findIndex(acc => acc._id === accId);
+			const updated = [...accounts];
+			updated[index] = response.data;
+			setAccounts(updated);
+		}).catch(err => {
+			console.error(err);
+		});
+	};
+	
+	const updateTransaction = (accId, transId, data) => {
+		userAxios.put(`/api/transactions/${accId}/${transId}`, data).then(response => {
+			const index = accounts.findIndex(acc => acc._id === accId);
+			const updated = [...accounts];
+			updated[index] = response.data;
+			setAccounts(updated);
+		}).catch(err => console.error(err));
+	};
+	
+	const deleteTransaction = (accId, transId) => {
+		userAxios.delete(`/api/transactions/${accId}/${transId}`).then(response => {
+			const index = accounts.findIndex(acc => acc._id === accId);
+			const updated = [...accounts];
+			updated[index] = response.data;
+			setAccounts(updated);
+		}).catch(err => console.error(err));
+	};
+	
+	const value = { accounts, addAccount, updateAccount, deleteAccount, addTransaction, updateTransaction, deleteTransaction };
 	return (
 		<AccContext.Provider value={value}>
 			{props.children}

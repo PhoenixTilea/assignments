@@ -6,11 +6,11 @@ const transSchema = new Schema({
 		type: Number,
 		required: true
 	},
-	to: {
+	toAccount: {
 		type: Schema.Types.ObjectId,
 		ref: "Account"
 	},
-	for: {
+	forExpense: {
 		type: Schema.Types.ObjectId,
 		ref: "Expense"
 	},

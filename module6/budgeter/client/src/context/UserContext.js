@@ -5,7 +5,10 @@ const UserContext = React.createContext();
 export default UserContext;
 
 const userAxios = axios.create();
-let authInt;
+let authInt = userAxios.interceptors.request.use(config => {
+	config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+	return config;
+});
 
 export function UserContextProvider(props) {
 	const [auth, setAuth] = useState({

@@ -3,7 +3,6 @@ import { Route, Switch } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SiteNav from "./components/SiteNav";
 import UserContext from "./context/UserContext";
-
 import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/Dashboard";
 

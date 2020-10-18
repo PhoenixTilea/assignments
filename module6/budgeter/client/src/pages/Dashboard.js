@@ -8,7 +8,7 @@ export default function Dashboard() {
 	return (
 		<AccContextProvider>
 		<Switch>
-			<Route exact path="/dashboard/account/:accId"><AccountPage /></Route>
+			<Route path="/dashboard/account/:accId"><AccountPage /></Route>
 			<Route path="/dashboard"><OverviewPage /></Route>
 		</Switch>
 		</AccContextProvider>
