@@ -1,26 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import Transaction from "./Transaction";
-import Modal from "./Modal";
-import TransactionForm from "./TransactionForm";
 
 export default function TransactionTable(props) {
 	const { transactions, account, updateTransaction, deleteTransaction } = props;
-	const [modal, setModal] = useState({
-		show: false,
-		transaction: null
-	});
-	
-	const handleModalOpen = trId => {
-		setModal({show: true, transaction: transactions.find(tr => tr._id === trId)});
-	};
-	
-	const handleModalClose = () => {
-		setModal({show: false, transaction: null});
-	};
 	
 	const handleUpdate = (id, data) => {
 		updateTransaction(account, id, data);
-		handleModalClose();
 	};
 	
 	const handleDelete = id => {
@@ -39,21 +24,9 @@ export default function TransactionTable(props) {
 					<th>Actions</th>
 				</tr>
 				{transactions.map(tr => (
-					<Transaction key={tr._id} {...tr} deleteTransaction={handleDelete} openModal={handleModalOpen} />
+					<Transaction key={tr._id} transaction={tr} deleteTransaction={handleDelete} update={handleUpdate} />
 				))}
 			</tbody>
-			{(modal.show) && <Modal onModalClose={handleModalClose}>
-					<Modal.Header>
-						<h1>Edit Transaction</h1>
-					</Modal.Header>
-					<Modal.Body>
-						<TransactionForm transaction={modal.transaction} update={handleUpdate} />
-					</Modal.Body>
-					<Modal.Footer>
-						<Modal.Footer.CloseBtn>Cancel</Modal.Footer.CloseBtn>
-					</Modal.Footer>
-				</Modal>
-			}
 		</table>
 	);
 }

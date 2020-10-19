@@ -1,28 +1,6 @@
 const mongoose = require("mongoose");
 const {Schema} = mongoose;
-
-const transSchema = new Schema({
-	amount: {
-		type: Number,
-		required: true
-	},
-	toAccount: {
-		type: Schema.Types.ObjectId,
-		ref: "Account"
-	},
-	forExpense: {
-		type: Schema.Types.ObjectId,
-		ref: "Expense"
-	},
-	date: {
-		type: Date,
-		default: Date.now(),
-		required: true
-	},
-	category: String,
-	subcategory: String,
-	notes: String
-});
+const transSchema = require("./Transaction");
 
 const accountSchema = new Schema({
 	name: {

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import AccContext from "../context/AccContext";
-import Modal from "../components/Modal";
+import ModalDisplayContext from "../context/ModalDisplayContext";
 import EditAccountBtn from "../components/EditAccountBtn";
 import TransactionForm from "../components/TransactionForm";
 import TransactionTable from "../components/TransactionTable";
@@ -10,9 +10,9 @@ import { formatMoney } from "../util";
 export default function AccountPage() {
 	const { accId } = useParams();
 	const { accounts, addTransaction, updateTransaction, deleteTransaction } = useContext(AccContext);
+	const { openModal, closeModal } = useContext(ModalDisplayContext);
 	const [account, setAccount] = useState({});
-	const [showModal, setShowModal] = useState(false);
-	const btn = useRef(null);
+	const newTrBtn = useRef(null);
 	
 	useEffect(() => {
 		setAccount(accounts.find(acc => acc._id === accId));
@@ -21,12 +21,18 @@ export default function AccountPage() {
 	
 	const handleAdd = data => {
 		addTransaction(accId, data);
-		handleModalClose();
+		closeModal();
 	};
 	
-	const handleModalClose = () => {
-		setShowModal(false);
-		btn.current.focus();
+	const openNewTrModal = () => {
+		const header = [<h1>New Transaction</h1>];
+		const body = [<TransactionForm add={handleAdd} />];
+		const footer = null;
+		const close = () => {
+			newTrBtn.current.focus();
+		};
+		
+		openModal(header, body, footer, close);
 	};
 	
 	return (
@@ -44,19 +50,7 @@ export default function AccountPage() {
 			</div>
 			<hr />
 			<h2>Transactions</h2>
-			<button ref={btn} onClick={() => setShowModal(true)}>New Transaction</button>
-				{(showModal) && <Modal onModalClose={handleModalClose}>
-						<Modal.Header>
-							<h1>New Transaction</h1>
-						</Modal.Header>
-						<Modal.Body>
-							<TransactionForm add={handleAdd} />
-						</Modal.Body>
-						<Modal.Footer>
-							<Modal.Footer.CloseBtn>Cancel</Modal.Footer.CloseBtn>
-						</Modal.Footer>
-					</Modal>
-				}
+			<button ref={newTrBtn} onClick={openNewTrModal}>New Transaction</button>
 				<TransactionTable transactions={account.transactions || []} deleteTransaction={deleteTransaction} account={accId} updateTransaction={updateTransaction} />
 	</>}
 		</main>

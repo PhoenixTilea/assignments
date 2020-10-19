@@ -21,13 +21,23 @@ export default function OverviewPage() {
 				</h2>
 			</div>
 			<hr />
-			<h2>Accounts</h2>
-			<NewAccButton addAccount={addAccount} />
-			<ul id="accounts-list">
-			{accounts.map(acc => (
-				<AccPreview {...acc} key={acc._id} />
-			))}
-			</ul>
+			<div id="accounts">
+				<h2>Accounts</h2>
+				<NewAccButton addAccount={addAccount} />
+				<ul id="accounts-list">
+					{accounts.map(acc => (
+						<AccPreview {...acc} key={acc._id} />
+					))}
+				</ul>
+			</div>
+			<div id="expenses">
+				<h2>Upcoming Expenses</h2>
+				<NewIEButton />
+			</div>
+			<div id="incomes">
+				<h2>Upcoming Income</h2>
+				<NewIEButton income={true} />
+			</div>
 		</main>
 	);
 }
